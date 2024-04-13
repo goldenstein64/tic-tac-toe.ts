@@ -21,8 +21,7 @@ function filterCanMark(board: Board, moves: number[]): number[] {
 }
 
 function nonEmptyOrUndefined<T, A extends any[]>(
-  target: (this: T, ...args: A) => number[] | undefined,
-  context: ClassMethodDecoratorContext
+  target: (this: T, ...args: A) => number[]
 ): (this: T, ...args: A) => number[] | undefined {
   return function (this: T, ...args: A): number[] | undefined {
     let result = target.call(this, ...args);
@@ -31,52 +30,51 @@ function nonEmptyOrUndefined<T, A extends any[]>(
 }
 
 export class MediumComputer implements Player {
-  @nonEmptyOrUndefined
-  getWinningMoves(board: Board, mark: Mark): number[] | undefined {
-    return range(9).filter((i) => {
-      if (!board.canMark(i)) return false;
+  getWinningMoves = nonEmptyOrUndefined(
+    (board: Board, mark: Mark): number[] => {
+      return range(9).filter((i) => {
+        if (!board.canMark(i)) return false;
 
-      return WIN_PATTERN_LOOKUP[i]
-        .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
-        .some((pattern) => pattern.every((i) => board.isMarkedWith(i, mark)));
-    });
-  }
+        return WIN_PATTERN_LOOKUP[i]
+          .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
+          .some((pattern) => pattern.every((i) => board.isMarkedWith(i, mark)));
+      });
+    }
+  );
 
   getBlockingMoves(board: Board, mark: Mark): number[] | undefined {
     return this.getWinningMoves(board, marks.other(mark));
   }
 
-  @nonEmptyOrUndefined
-  getTrappingMoves(board: Board, mark: Mark): number[] | undefined {
-    return range(9).filter((i) => {
-      if (!board.canMark(i)) return false;
+  getTrappingMoves = nonEmptyOrUndefined(
+    (board: Board, mark: Mark): number[] => {
+      return range(9).filter((i) => {
+        if (!board.canMark(i)) return false;
 
-      let trappingPatterns = WIN_PATTERN_LOOKUP[i]
-        .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
-        .filter(
-          (pattern) =>
-            pattern.some((i) => board.canMark(i)) &&
-            pattern.some((i) => board.isMarkedWith(i, mark))
-        );
+        let trappingPatterns = WIN_PATTERN_LOOKUP[i]
+          .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
+          .filter(
+            (pattern) =>
+              pattern.some((i) => board.canMark(i)) &&
+              pattern.some((i) => board.isMarkedWith(i, mark))
+          );
 
-      return trappingPatterns.length > 1;
-    });
-  }
+        return trappingPatterns.length > 1;
+      });
+    }
+  );
 
-  @nonEmptyOrUndefined
-  getCenterMoves(board: Board, _: Mark): number[] | undefined {
+  getCenterMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
     return CENTER_MOVES.filter((i) => board.canMark(i));
-  }
+  });
 
-  @nonEmptyOrUndefined
-  getCornerMoves(board: Board, _: Mark): number[] | undefined {
+  getCornerMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
     return CORNER_MOVES.filter((i) => board.canMark(i));
-  }
+  });
 
-  @nonEmptyOrUndefined
-  getSideMoves(board: Board, _: Mark): number[] | undefined {
+  getSideMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
     return SIDE_MOVES.filter((i) => board.canMark(i));
-  }
+  });
 
   getMoves(board: Board, mark: Mark): number[] {
     let moves =
