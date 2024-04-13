@@ -1,7 +1,10 @@
 import { Board } from "./data/Board";
 import { Mark, marks } from "./data/Mark";
 import { Connection } from "./messages/Messages";
-import Human from "./player/Human";
+import { EasyComputer } from "./player/EasyComputer";
+import { HardComputer } from "./player/HardComputer";
+import { Human } from "./player/Human";
+import { MediumComputer } from "./player/MediumComputer";
 
 export interface Player {
   getMove(board: Board, mark: Mark): Promise<number>;
@@ -21,11 +24,11 @@ export default class Application {
     );
     switch (computerInput) {
       case "E":
-        return;
+        return new EasyComputer();
       case "M":
-        return;
+        return new MediumComputer();
       case "H":
-        return;
+        return new HardComputer();
       default:
         this.#connection.print("app/err/computerInvalid", computerInput);
         return undefined;

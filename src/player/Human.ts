@@ -3,7 +3,7 @@ import { type Board } from "../data/Board";
 import { type Mark } from "../data/Mark";
 import { type Connection } from "../messages/Messages";
 
-export default class Human implements Player {
+export class Human implements Player {
   #connection: Connection;
 
   constructor(connection: Connection) {
