@@ -13,41 +13,41 @@ export const FORMAT_STRINGS: Map<Message, MessageFormatter> = new Map<
   Message,
   MessageFormatter
 >()
-  .set(Message.MSG_BOARD, (board: Board) => `${board}`)
+  .set("app/msg/board", (board: Board) => `${board}`)
   .set(
-    Message.MSG_PLAYER_WON,
+    "app/msg/playerWon",
     (mark: Mark) => `Player ${marks.toString(mark)} won!`
   )
-  .set(Message.MSG_TIED, () => `There was a tie!`)
+  .set("app/msg/tied", () => `There was a tie!`)
   .set(
-    Message.MSG_PROMPT_PLAYER,
+    "app/msg/promptPlayer",
     (mark: Mark) =>
       `Is Player ${marks.toString(mark)} a human or computer? [H/C]: `
   )
   .set(
-    Message.MSG_PROMPT_COMPUTER,
+    "app/msg/promptComputer",
     (mark: Mark) =>
       `What is Computer ${marks.toString(mark)}'s difficulty? [E/M/H]: `
   )
   .set(
-    Message.ERR_PLAYER_INVALID,
+    "app/err/playerInvalid",
     (input: string) => `'${input}' does not match [H/C]!`
   )
   .set(
-    Message.ERR_COMPUTER_INVALID,
+    "app/err/computerInvalid",
     (input: string) => `'${input}' does not match [E/M/H]!`
   )
   .set(
-    Message.MSG_PROMPT_MOVE,
+    "human/msg/promptMove",
     (mark: Mark) => `Pick a move, Player ${marks.toString(mark)} [1-9]: `
   )
-  .set(Message.ERR_NAN, (input: string) => `'${input}' is not a number!`)
+  .set("human/err/nan", (input: string) => `'${input}' is not a number!`)
   .set(
-    Message.ERR_OUT_OF_RANGE,
+    "human/err/outOfRange",
     (input: string) => `'${input}' is not in the range of 1-9!`
   )
   .set(
-    Message.ERR_OCCUPIED,
+    "human/err/occupied",
     (input: string) => `The position ${input} is occupied!`
   );
 

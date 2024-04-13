@@ -1,7 +1,7 @@
 import type { Player } from "../Application";
 import { type Board } from "../data/Board";
 import { type Mark } from "../data/Mark";
-import { Message, type Connection } from "../messages/Messages";
+import { type Connection } from "../messages/Messages";
 
 export default class Human implements Player {
   #connection: Connection;
@@ -12,7 +12,7 @@ export default class Human implements Player {
 
   async getMoveOnce(board: Board, mark: Mark): Promise<number | undefined> {
     let choiceString = await this.#connection.prompt(
-      Message.MSG_PROMPT_MOVE,
+      "human/msg/promptMove",
       mark
     );
 
@@ -20,19 +20,19 @@ export default class Human implements Player {
     try {
       choice = Number.parseInt(choiceString);
     } catch (e) {
-      this.#connection.print(Message.ERR_NAN, choiceString);
+      this.#connection.print("human/err/nan", choiceString);
       return undefined;
     }
 
     if (choice < 1 || choice > 9) {
-      this.#connection.print(Message.ERR_OUT_OF_RANGE, choice);
+      this.#connection.print("human/err/outOfRange", choice);
       return undefined;
     }
 
     let pos = choice - 1;
 
     if (!board.canMark(pos)) {
-      this.#connection.print(Message.ERR_OCCUPIED, choice);
+      this.#connection.print("human/err/occupied", choice);
       return undefined;
     }
 

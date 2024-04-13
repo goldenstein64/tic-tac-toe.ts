@@ -1,19 +1,15 @@
-export enum Message {
-  // application messages
-  MSG_BOARD,
-  MSG_PLAYER_WON,
-  MSG_TIED,
-  MSG_PROMPT_PLAYER,
-  MSG_PROMPT_COMPUTER,
-  ERR_PLAYER_INVALID,
-  ERR_COMPUTER_INVALID,
-
-  // human messages
-  MSG_PROMPT_MOVE,
-  ERR_NAN,
-  ERR_OUT_OF_RANGE,
-  ERR_OCCUPIED,
-}
+export type Message =
+  | "app/msg/board"
+  | "app/msg/playerWon"
+  | "app/msg/tied"
+  | "app/msg/promptPlayer"
+  | "app/msg/promptComputer"
+  | "app/err/playerInvalid"
+  | "app/err/computerInvalid"
+  | "human/msg/promptMove"
+  | "human/err/nan"
+  | "human/err/outOfRange"
+  | "human/err/occupied";
 
 export interface Connection {
   print(msg: Message, ...args: any[]): Promise<void>;

@@ -1,6 +1,6 @@
 import { Board } from "./data/Board";
 import { Mark, marks } from "./data/Mark";
-import { Connection, Message } from "./messages/Messages";
+import { Connection } from "./messages/Messages";
 import Human from "./player/Human";
 
 export interface Player {
@@ -14,59 +14,59 @@ export default class Application {
     this.#connection = connection;
   }
 
-  async choosePlayer(mark: Mark): Promise<Player | undefined> {
+  async #chooseComputerOnce(mark: Mark): Promise<Player | undefined> {
+    let computerInput = await this.#connection.prompt(
+      "app/msg/promptComputer",
+      mark
+    );
+    switch (computerInput) {
+      case "E":
+        return;
+      case "M":
+        return;
+      case "H":
+        return;
+      default:
+        this.#connection.print("app/err/computerInvalid", computerInput);
+        return undefined;
+    }
+  }
+
+  async choosePlayerOnce(mark: Mark): Promise<Player | undefined> {
     let playerInput = await this.#connection.prompt(
-      Message.MSG_PROMPT_PLAYER,
+      "app/msg/promptPlayer",
       mark
     );
     switch (playerInput) {
       case "H":
         return new Human(this.#connection);
       case "C":
-        let computerInput = await this.#connection.prompt(
-          Message.MSG_PROMPT_COMPUTER,
-          mark
-        );
-        switch (computerInput) {
-          case "E":
-            return;
-          case "M":
-            return;
-          case "H":
-            return;
-          default:
-            this.#connection.print(Message.ERR_COMPUTER_INVALID, computerInput);
-            return undefined;
-        }
+        return this.#chooseComputerOnce(mark);
       default:
-        this.#connection.print(Message.ERR_PLAYER_INVALID, playerInput);
+        this.#connection.print("app/err/playerInvalid", playerInput);
         return undefined;
     }
   }
 
-  async choosePlayers(): Promise<Map<Mark, Player>> {
-    let mark = Mark.X;
-    let result = new Map<Mark, Player>();
-    for (let i = 0; i < 2; i++) {
-      let chosenPlayer: Player | undefined;
-      do {
-        chosenPlayer = await this.choosePlayer(mark);
-      } while (chosenPlayer === undefined);
-      result.set(mark, chosenPlayer);
-      mark = marks.other(mark);
-    }
-    return result;
+  async choosePlayer(mark: Mark): Promise<Player> {
+    let player: Player | undefined = undefined;
+    while (player === undefined) player = await this.choosePlayerOnce(mark);
+    return player;
   }
 
-  async playGame(
-    board: Board,
-    players: Map<Mark, Player>
-  ): Promise<Mark | undefined> {
+  async choosePlayers(): Promise<Player[]> {
+    return [await this.choosePlayer(Mark.X), await this.choosePlayer(Mark.O)];
+  }
+
+  async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
+    let currentIndex = 0;
     let currentMark = Mark.X;
     while (!board.full()) {
-      let player = players.get(currentMark)!;
+      let player = players[currentIndex];
       let move = await player.getMove(board, currentMark);
       board.setMark(move, currentMark);
+      if (board.won(currentMark)) return currentMark;
+      currentIndex = (currentIndex % players.length) + 1;
       currentMark = marks.other(currentMark);
     }
     currentMark = marks.other(currentMark);
@@ -75,9 +75,9 @@ export default class Application {
 
   displayWinner(winner: Mark | undefined): void {
     if (winner !== undefined) {
-      this.#connection.print(Message.MSG_PLAYER_WON, winner);
+      this.#connection.print("app/msg/playerWon", winner);
     } else {
-      this.#connection.print(Message.MSG_TIED);
+      this.#connection.print("app/msg/tied");
     }
   }
 }
