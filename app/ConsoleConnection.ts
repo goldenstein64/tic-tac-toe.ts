@@ -1,9 +1,9 @@
 import readline from "node:readline/promises";
 import process from "node:process";
 
-import { Message, Connection } from "./Messages";
-import { marks, type Mark } from "../data/Mark";
-import { type Board } from "../data/Board";
+import { Message, Connection } from "../src/messages/Messages";
+import { marks, type Mark } from "../src/data/Mark";
+import { type Board } from "../src/data/Board";
 
 const input = readline.createInterface(process.stdin, process.stdout);
 
