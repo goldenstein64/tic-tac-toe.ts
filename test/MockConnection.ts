@@ -1,0 +1,19 @@
+import { Connection, Message } from "../src/messages/Messages";
+
+export default class MockConnection implements Connection {
+  inputs: string[] = [];
+  outputs: Message[] = [];
+
+  print(msg: Message, ..._: any[]): Promise<void> {
+    this.outputs.push(msg);
+    return Promise.resolve();
+  }
+
+  prompt(msg: Message, ..._: any[]): Promise<string> {
+    this.outputs.push(msg);
+    if (this.outputs.length === 0) {
+      throw new Error("inputs array is empty");
+    }
+    return Promise.resolve<string>(this.inputs.shift()!);
+  }
+}
