@@ -16,7 +16,7 @@ export const WIN_PATTERNS = Object.freeze([
 export class Board {
   readonly data: (Mark | undefined)[];
 
-  static fromPattern(pattern: string) {
+  static fromPattern(pattern: string): Board {
     let result = new Board();
     for (let i = 0; i < BOARD_SIZE; i++) {
       switch (pattern.charAt(i)) {
@@ -28,6 +28,7 @@ export class Board {
           result.data[i] = undefined;
       }
     }
+    return result;
   }
 
   constructor() {
