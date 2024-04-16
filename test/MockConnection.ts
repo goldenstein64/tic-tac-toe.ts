@@ -1,8 +1,12 @@
 import { Connection, Message } from "../src/messages/Messages";
 
 export default class MockConnection implements Connection {
-  inputs: string[] = [];
+  inputs: string[];
   outputs: Message[] = [];
+
+  constructor(inputs: string[] | undefined = undefined) {
+    this.inputs = inputs ?? [];
+  }
 
   print(msg: Message, ..._: any[]): Promise<void> {
     this.outputs.push(msg);
