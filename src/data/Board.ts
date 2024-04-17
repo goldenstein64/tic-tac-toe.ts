@@ -62,6 +62,10 @@ export class Board {
     );
   }
 
+  empty(): boolean {
+    return this.data.every((m) => m === undefined);
+  }
+
   full(): boolean {
     return this.data.every((m) => m !== undefined);
   }
