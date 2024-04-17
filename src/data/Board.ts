@@ -45,7 +45,13 @@ export class Board {
   }
 
   setMark(pos: number, mark: Mark | undefined): void {
-    this.data[pos] = mark;
+    if (pos < 0 || pos >= BOARD_SIZE) {
+      throw new TypeError("position is out of range");
+    } else if (this.data[pos] !== undefined) {
+      throw new TypeError("this position is already marked!");
+    } else {
+      this.data[pos] = mark;
+    }
   }
 
   isMarkedWith(pos: number, mark: Mark | undefined): boolean {

@@ -111,4 +111,18 @@ describe("Board", () => {
       expect(board.canMark(8)).toBe(true);
     });
   });
+
+  describe("setMark", () => {
+    it("throws on occupied", () => {
+      let board = Board.fromPattern(",,X,,,,,,");
+
+      expect(() => board.setMark(2, "O")).toThrowError(TypeError);
+    });
+
+    it("throws on out of range", () => {
+      let board = new Board();
+
+      expect(() => board.setMark(10, "X")).toThrowError(TypeError);
+    });
+  });
 });
