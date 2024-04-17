@@ -54,19 +54,19 @@ const SYMMETRIES: Symmetry[] = [
   },
 ];
 
-const CONTROLS = new Map<Mark, number>().set(Mark.X, -1).set(Mark.O, 1);
+const CONTROLS = new Map<Mark, number>().set("X", -1).set("O", 1);
 
 const RECONCILERS = new Map<Mark, (a: number, b: number) => number>()
-  .set(Mark.X, Math.max)
-  .set(Mark.O, Math.min);
+  .set("X", Math.max)
+  .set("O", Math.min);
 
 /**
  * @returns a number if it is a terminal, otherwise `undefined`
  */
 function getTerminal(board: Board): number | undefined {
-  if (board.won(Mark.X)) {
+  if (board.won("X")) {
     return 1;
-  } else if (board.won(Mark.O)) {
+  } else if (board.won("O")) {
     return -1;
   } else if (board.full()) {
     return 0;

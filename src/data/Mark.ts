@@ -1,13 +1,10 @@
-export enum Mark {
-  X,
-  O,
-}
+export type Mark = "X" | "O";
 
 export const marks = Object.freeze({
   toString(mark: Mark): string {
-    if (mark === Mark.X) {
+    if (mark === "X") {
       return "X";
-    } else if (mark === Mark.O) {
+    } else if (mark === "O") {
       return "O";
     } else {
       throw new TypeError(`Unknown Mark value '${mark}'`);
@@ -15,6 +12,6 @@ export const marks = Object.freeze({
   },
 
   other(mark: Mark): Mark {
-    return mark === Mark.X ? Mark.O : Mark.X;
+    return mark === "X" ? "O" : "X";
   },
 });

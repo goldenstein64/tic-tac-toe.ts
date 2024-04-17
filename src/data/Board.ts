@@ -19,11 +19,11 @@ export class Board {
   static fromPattern(pattern: string): Board {
     let result = new Board();
     for (let i = 0; i < BOARD_SIZE; i++) {
-      switch (pattern.charAt(i)) {
+      let char = pattern.charAt(i);
+      switch (char) {
         case "X":
-          result.data[i] = Mark.X;
         case "O":
-          result.data[i] = Mark.O;
+          result.data[i] = char;
         default:
           result.data[i] = undefined;
       }

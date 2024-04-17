@@ -20,7 +20,7 @@ describe("Application", () => {
 
     it("returns computer on CH", async () => {
       mockConn.inputs = ["C", "H"];
-      let chosenPlayer = await app.choosePlayerOnce(Mark.X);
+      let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
         "app/msg/promptPlayer",
@@ -32,7 +32,7 @@ describe("Application", () => {
 
     it("returns computer on CM", async () => {
       mockConn.inputs = ["C", "M"];
-      let chosenPlayer = await app.choosePlayerOnce(Mark.X);
+      let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
         "app/msg/promptPlayer",
@@ -44,7 +44,7 @@ describe("Application", () => {
 
     it("returns computer on CE", async () => {
       mockConn.inputs = ["C", "E"];
-      let chosenPlayer = await app.choosePlayerOnce(Mark.X);
+      let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
         "app/msg/promptPlayer",
@@ -56,7 +56,7 @@ describe("Application", () => {
 
     it("returns human on H", async () => {
       mockConn.inputs = ["H"];
-      let chosenPlayer = await app.choosePlayerOnce(Mark.X);
+      let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
         "app/msg/promptPlayer",
