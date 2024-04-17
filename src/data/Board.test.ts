@@ -1,5 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import { Board } from "./Board";
+import { BOARD_SIZE, Board } from "./Board";
 
 describe("Board", () => {
   describe("won", () => {
@@ -123,6 +123,15 @@ describe("Board", () => {
       let board = new Board();
 
       expect(() => board.setMark(10, "X")).toThrowError(TypeError);
+    });
+
+    it("changes the board's state", () => {
+      for (let i = 0; i < BOARD_SIZE; i++) {
+        let board = new Board();
+        expect(board.canMark(i)).toBe(true);
+        board.setMark(i, "X");
+        expect(board.canMark(i)).toBe(false);
+      }
     });
   });
 });
