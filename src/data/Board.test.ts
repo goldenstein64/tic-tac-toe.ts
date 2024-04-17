@@ -95,4 +95,20 @@ describe("Board", () => {
       expect(board.isMarkedWith(2, undefined)).toBe(true);
     });
   });
+
+  describe("canMark", () => {
+    it("matches on undefined", () => {
+      let board = Board.fromPattern("XO,XO,XO,");
+
+      expect(board.canMark(0)).toBe(false);
+      expect(board.canMark(1)).toBe(false);
+      expect(board.canMark(2)).toBe(true);
+      expect(board.canMark(3)).toBe(false);
+      expect(board.canMark(4)).toBe(false);
+      expect(board.canMark(5)).toBe(true);
+      expect(board.canMark(6)).toBe(false);
+      expect(board.canMark(7)).toBe(false);
+      expect(board.canMark(8)).toBe(true);
+    });
+  });
 });
