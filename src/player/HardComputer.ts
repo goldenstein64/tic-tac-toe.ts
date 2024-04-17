@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import { Player } from "../Application";
-import { Board } from "../data/Board";
+import { BOARD_SIZE, Board } from "../data/Board";
 import { Mark, marks } from "../data/Mark";
 import { range } from "../util/utils";
 
@@ -150,7 +150,11 @@ export class HardComputer implements Player {
   }
 
   async getMove(board: Board, mark: Mark): Promise<number> {
-    let moves = this.getMoves(board, mark);
-    return moves[randomInt(moves.length)];
+    if (board.empty()) {
+      return randomInt(BOARD_SIZE);
+    } else {
+      let moves = this.getMoves(board, mark);
+      return moves[randomInt(moves.length)];
+    }
   }
 }
