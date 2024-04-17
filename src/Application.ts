@@ -53,7 +53,9 @@ export default class Application {
 
   async choosePlayer(mark: Mark): Promise<Player> {
     let player: Player | undefined = undefined;
-    while (player === undefined) player = await this.choosePlayerOnce(mark);
+    do {
+      player = await this.choosePlayerOnce(mark);
+    } while (player === undefined);
     return player;
   }
 
