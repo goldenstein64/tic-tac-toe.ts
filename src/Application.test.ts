@@ -3,7 +3,7 @@ import { describe, it, expect } from "@jest/globals";
 import MockConnection from "../test/MockConnection";
 import Application from "./Application";
 import { Mark } from "./data/Mark";
-import { Connection, Message } from "./messages/Messages";
+import { Connection, Message } from "./data/Messages";
 import { HardComputer } from "./player/HardComputer";
 import { MediumComputer } from "./player/MediumComputer";
 import { EasyComputer } from "./player/EasyComputer";

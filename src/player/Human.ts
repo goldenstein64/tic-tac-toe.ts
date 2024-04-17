@@ -1,7 +1,7 @@
 import type { Player } from "../Application";
 import { type Board } from "../data/Board";
 import { type Mark } from "../data/Mark";
-import { type Connection } from "../messages/Messages";
+import { type Connection } from "../data/Messages";
 
 export class Human implements Player {
   #connection: Connection;

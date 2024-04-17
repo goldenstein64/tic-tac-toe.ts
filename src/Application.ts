@@ -1,6 +1,6 @@
 import { Board } from "./data/Board";
 import { Mark, marks } from "./data/Mark";
-import { Connection } from "./messages/Messages";
+import { Connection } from "./data/Messages";
 import { EasyComputer } from "./player/EasyComputer";
 import { HardComputer } from "./player/HardComputer";
 import { Human } from "./player/Human";
