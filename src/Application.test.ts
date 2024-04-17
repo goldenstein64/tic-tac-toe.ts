@@ -11,15 +11,9 @@ import { Human } from "./player/Human";
 
 describe("Application", () => {
   describe("choosePlayerOnce", () => {
-    let mockConn: MockConnection;
-    let app: Application;
-    beforeEach(() => {
-      mockConn = new MockConnection();
-      app = new Application(mockConn);
-    });
-
     it("returns computer on CH", async () => {
-      mockConn.inputs = ["C", "H"];
+      let mockConn = new MockConnection(["C", "H"]);
+      let app = new Application(mockConn);
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
@@ -31,7 +25,8 @@ describe("Application", () => {
     });
 
     it("returns computer on CM", async () => {
-      mockConn.inputs = ["C", "M"];
+      let mockConn = new MockConnection(["C", "M"]);
+      let app = new Application(mockConn);
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
@@ -43,7 +38,8 @@ describe("Application", () => {
     });
 
     it("returns computer on CE", async () => {
-      mockConn.inputs = ["C", "E"];
+      let mockConn = new MockConnection(["C", "E"]);
+      let app = new Application(mockConn);
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
@@ -55,7 +51,8 @@ describe("Application", () => {
     });
 
     it("returns human on H", async () => {
-      mockConn.inputs = ["H"];
+      let mockConn = new MockConnection(["H"]);
+      let app = new Application(mockConn);
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
