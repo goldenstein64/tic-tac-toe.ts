@@ -49,7 +49,7 @@ export class Board {
   }
 
   isMarkedWith(pos: number, mark: Mark | undefined): boolean {
-    return this.data[pos] === mark;
+    return pos >= 0 && pos < BOARD_SIZE && this.data[pos] === mark;
   }
 
   canMark(pos: number): boolean {
