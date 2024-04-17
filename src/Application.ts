@@ -58,12 +58,12 @@ export default class Application {
   }
 
   async choosePlayers(): Promise<Player[]> {
-    return [await this.choosePlayer(Mark.X), await this.choosePlayer(Mark.O)];
+    return [await this.choosePlayer("X"), await this.choosePlayer("O")];
   }
 
   async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
     let currentIndex = 0;
-    let currentMark = Mark.X;
+    let currentMark: Mark = "X";
     while (!board.full()) {
       let player = players[currentIndex];
       let move = await player.getMove(board, currentMark);
