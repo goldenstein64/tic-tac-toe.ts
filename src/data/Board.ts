@@ -24,6 +24,7 @@ export class Board {
         case "X":
         case "O":
           result.data[i] = char;
+          break;
         default:
           result.data[i] = undefined;
       }
