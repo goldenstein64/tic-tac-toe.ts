@@ -78,5 +78,21 @@ describe("Board", () => {
       expect(empty.isMarkedWith(8, undefined)).toBe(true);
       expect(empty.isMarkedWith(9, undefined)).toBe(false);
     });
+
+    it("matches on Mark", () => {
+      let board = Board.fromPattern("XO,XO,XO,");
+
+      expect(board.isMarkedWith(0, "X")).toBe(true);
+      expect(board.isMarkedWith(0, "O")).toBe(false);
+      expect(board.isMarkedWith(0, undefined)).toBe(false);
+
+      expect(board.isMarkedWith(1, "X")).toBe(false);
+      expect(board.isMarkedWith(1, "O")).toBe(true);
+      expect(board.isMarkedWith(1, undefined)).toBe(false);
+
+      expect(board.isMarkedWith(2, "X")).toBe(false);
+      expect(board.isMarkedWith(2, "O")).toBe(false);
+      expect(board.isMarkedWith(2, undefined)).toBe(true);
+    });
   });
 });
