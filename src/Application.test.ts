@@ -1,9 +1,9 @@
-import { describe, it, expect } from "@jest/globals";
+import type { Message } from "./data/Messages";
+
+import { describe, it, expect } from "bun:test";
 
 import MockConnection from "../test/MockConnection";
 import Application from "./Application";
-import { Mark } from "./data/Mark";
-import { Connection, Message } from "./data/Messages";
 import { HardComputer } from "./player/HardComputer";
 import { MediumComputer } from "./player/MediumComputer";
 import { EasyComputer } from "./player/EasyComputer";

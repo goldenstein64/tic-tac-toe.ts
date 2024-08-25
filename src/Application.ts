@@ -1,6 +1,8 @@
+import type { Connection } from "./data/Messages";
+import type { Mark } from "./data/Mark";
+
 import { Board } from "./data/Board";
-import { Mark, marks } from "./data/Mark";
-import { Connection } from "./data/Messages";
+import { marks } from "./data/Mark";
 import { EasyComputer } from "./player/EasyComputer";
 import { HardComputer } from "./player/HardComputer";
 import { Human } from "./player/Human";

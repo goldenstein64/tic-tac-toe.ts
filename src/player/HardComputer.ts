@@ -1,8 +1,11 @@
+import type { Player } from "../Application";
+import type { Mark } from "../data/Mark";
+
 import { randomInt } from "crypto";
-import { Player } from "../Application";
-import { BOARD_SIZE, Board } from "../data/Board";
-import { Mark, marks } from "../data/Mark";
+
 import { range } from "../util/utils";
+import { BOARD_SIZE, Board } from "../data/Board";
+import { marks } from "../data/Mark";
 
 const EQUALITIES: [number, number][] = [
   [0, 2], // 0

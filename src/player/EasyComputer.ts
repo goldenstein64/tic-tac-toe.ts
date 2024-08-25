@@ -1,8 +1,11 @@
-import { randomInt } from "crypto";
 import { type Player } from "../Application";
-import { type Board, BOARD_SIZE } from "../data/Board";
+import { type Board } from "../data/Board";
 import { type Mark } from "../data/Mark";
+
+import { randomInt } from "crypto";
+
 import { range } from "../util/utils";
+import { BOARD_SIZE } from "../data/Board";
 
 export class EasyComputer implements Player {
   async getMove(board: Board, mark: Mark): Promise<number> {

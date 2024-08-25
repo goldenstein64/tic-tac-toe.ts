@@ -1,8 +1,12 @@
+import type { Player } from "../Application";
+import type { Board } from "../data/Board";
+import type { Mark } from "../data/Mark";
+
 import { randomInt } from "crypto";
-import { type Player } from "../Application";
-import { BOARD_SIZE, WIN_PATTERNS, type Board } from "../data/Board";
-import { type Mark, marks } from "../data/Mark";
+
 import { range } from "../util/utils";
+import { WIN_PATTERNS } from "../data/Board";
+import { marks } from "../data/Mark";
 
 const WIN_PATTERN_LOOKUP: readonly number[][] = Object.freeze(
   range(9).map((i) =>
