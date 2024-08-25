@@ -24,6 +24,11 @@ export class Human implements Player {
       return undefined;
     }
 
+    if (Number.isNaN(choice) || !Number.isFinite(choice)) {
+      this.#connection.print("human/err/nan", choiceString);
+      return undefined;
+    }
+
     if (choice < 1 || choice > 9) {
       this.#connection.print("human/err/outOfRange", choice);
       return undefined;
