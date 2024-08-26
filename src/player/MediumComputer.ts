@@ -79,9 +79,7 @@ export class MediumComputer implements Player {
       this.getCornerMoves(board) ??
       this.getSideMoves(board);
 
-    if (!moves) {
-      throw new TypeError("board is full!");
-    }
+    if (!moves) throw new TypeError("board is full!");
 
     return moves;
   }
