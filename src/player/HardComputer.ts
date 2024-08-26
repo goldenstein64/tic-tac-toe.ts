@@ -4,7 +4,7 @@ import type { Mark } from "../data/Mark";
 import { randomInt } from "crypto";
 
 import { range } from "../util/utils";
-import { BOARD_SIZE, Board } from "../data/Board";
+import Board, { BOARD_SIZE } from "../data/Board";
 import { marks } from "../data/Mark";
 
 const EQUALITIES: [number, number][] = [
@@ -146,7 +146,7 @@ function judge(board: Board, mark: Mark): number {
   return result;
 }
 
-export class HardComputer implements Player {
+export default class HardComputer implements Player {
   getMoves(board: Board, mark: Mark): number[] {
     const actions = simpleActions(board);
     const otherMark = marks.other(mark);

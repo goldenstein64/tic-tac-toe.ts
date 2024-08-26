@@ -13,7 +13,7 @@ export const WIN_PATTERNS = Object.freeze([
   Object.freeze([2, 4, 6]),
 ]);
 
-export class Board {
+export default class Board {
   readonly data: (Mark | undefined)[];
 
   static fromPattern(pattern: string): Board {

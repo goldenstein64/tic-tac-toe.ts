@@ -1,10 +1,11 @@
-import { describe, it, expect } from "bun:test";
-
-import { MediumComputer } from "./MediumComputer";
-import { HardComputer } from "./HardComputer";
 import type { Player } from "../Application";
 import type { Mark } from "../data/Mark";
-import { Board } from "../data/Board";
+
+import { describe, it, expect } from "bun:test";
+
+import MediumComputer from "./MediumComputer";
+import HardComputer from "./HardComputer";
+import Board from "../data/Board";
 
 const computerCases: readonly (readonly [string, Player])[] = [
   ["MediumComputer", new MediumComputer()],

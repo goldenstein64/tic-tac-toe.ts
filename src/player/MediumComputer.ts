@@ -1,5 +1,5 @@
 import type { Player } from "../Application";
-import type { Board } from "../data/Board";
+import type Board from "../data/Board";
 import type { Mark } from "../data/Mark";
 
 import { randomInt } from "crypto";
@@ -24,7 +24,7 @@ function nonEmptyOrUndefined<T>(result: T[]): T[] | undefined {
   return result.length > 0 ? result : undefined;
 }
 
-export class MediumComputer implements Player {
+export default class MediumComputer implements Player {
   getWinningMoves(board: Board, mark: Mark): number[] | undefined {
     return nonEmptyOrUndefined(
       range(9).filter((i) => {

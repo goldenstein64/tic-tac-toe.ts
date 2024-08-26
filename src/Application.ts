@@ -1,12 +1,13 @@
 import type { Connection } from "./data/Messages";
 import type { Mark } from "./data/Mark";
 
-import { Board } from "./data/Board";
+import Board from "./data/Board";
 import { marks } from "./data/Mark";
-import { EasyComputer } from "./player/EasyComputer";
-import { HardComputer } from "./player/HardComputer";
-import { Human } from "./player/Human";
-import { MediumComputer } from "./player/MediumComputer";
+
+import EasyComputer from "./player/EasyComputer";
+import MediumComputer from "./player/MediumComputer";
+import HardComputer from "./player/HardComputer";
+import Human from "./player/Human";
 
 export interface Player {
   getMove(board: Board, mark: Mark): Promise<number>;

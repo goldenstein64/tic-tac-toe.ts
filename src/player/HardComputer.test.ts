@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 import { randomInt } from "crypto";
 
 import { getTerminal, resultOf } from "./HardComputer";
-import { Board, BOARD_SIZE } from "../data/Board";
+import Board, { BOARD_SIZE } from "../data/Board";
 import type { Mark } from "../data/Mark";
 import { range } from "../util/utils";
 
