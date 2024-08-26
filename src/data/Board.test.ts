@@ -1,4 +1,4 @@
-import { describe, it, expect } from "@jest/globals";
+import { describe, it, expect } from "bun:test";
 import { BOARD_SIZE, Board } from "./Board";
 
 describe("Board", () => {
