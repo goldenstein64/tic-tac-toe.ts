@@ -1,3 +1,7 @@
 export function range(n: number): number[] {
-  return Array.from(Array(n), (_, i) => i);
+  const result = Array(n);
+  for (let i = 0; i < n; i++) {
+    result[i] = i;
+  }
+  return result;
 }
