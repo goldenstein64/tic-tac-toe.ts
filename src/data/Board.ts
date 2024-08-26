@@ -1,4 +1,4 @@
-import { Mark, marks } from "./Mark";
+import type { Mark } from "./Mark";
 
 export const BOARD_SIZE: number = 9;
 
