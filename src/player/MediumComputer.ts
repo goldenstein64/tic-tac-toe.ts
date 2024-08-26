@@ -20,39 +20,29 @@ const CENTER_MOVES = [4];
 const CORNER_MOVES = [0, 2, 6, 8];
 const SIDE_MOVES = [1, 3, 5, 7];
 
-function filterCanMark(board: Board, moves: number[]): number[] {
-  return moves.filter((i) => board.canMark(i));
-}
-
-function nonEmptyOrUndefined<T, A extends any[]>(
-  target: (this: T, ...args: A) => number[]
-): (this: T, ...args: A) => number[] | undefined {
-  return function (this: T, ...args: A): number[] | undefined {
-    let result = target.call(this, ...args);
-    return result && result.length > 0 ? result : undefined;
-  };
+function nonEmptyOrUndefined<T>(result: T[]): T[] | undefined {
+  return result.length > 0 ? result : undefined;
 }
 
 export class MediumComputer implements Player {
-  getWinningMoves = nonEmptyOrUndefined(
-    (board: Board, mark: Mark): number[] => {
-      return range(9).filter((i) => {
+  getWinningMoves(board: Board, mark: Mark): number[] | undefined {
+    return nonEmptyOrUndefined(
+      range(9).filter((i) => {
         if (!board.canMark(i)) return false;
-
         return WIN_PATTERN_LOOKUP[i]
           .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
           .some((pattern) => pattern.every((i) => board.isMarkedWith(i, mark)));
-      });
-    }
-  );
+      })
+    );
+  }
 
   getBlockingMoves(board: Board, mark: Mark): number[] | undefined {
     return this.getWinningMoves(board, marks.other(mark));
   }
 
-  getTrappingMoves = nonEmptyOrUndefined(
-    (board: Board, mark: Mark): number[] => {
-      return range(9).filter((i) => {
+  getTrappingMoves(board: Board, mark: Mark): number[] | undefined {
+    return nonEmptyOrUndefined(
+      range(9).filter((i) => {
         if (!board.canMark(i)) return false;
 
         let trappingPatterns = WIN_PATTERN_LOOKUP[i]
@@ -64,32 +54,32 @@ export class MediumComputer implements Player {
           );
 
         return trappingPatterns.length > 1;
-      });
-    }
-  );
+      })
+    );
+  }
 
-  getCenterMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
-    return CENTER_MOVES.filter((i) => board.canMark(i));
-  });
+  getCenterMoves(board: Board): number[] | undefined {
+    return nonEmptyOrUndefined(CENTER_MOVES.filter((i) => board.canMark(i)));
+  }
 
-  getCornerMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
-    return CORNER_MOVES.filter((i) => board.canMark(i));
-  });
+  getCornerMoves(board: Board): number[] | undefined {
+    return nonEmptyOrUndefined(CORNER_MOVES.filter((i) => board.canMark(i)));
+  }
 
-  getSideMoves = nonEmptyOrUndefined((board: Board, _: Mark): number[] => {
-    return SIDE_MOVES.filter((i) => board.canMark(i));
-  });
+  getSideMoves(board: Board): number[] | undefined {
+    return nonEmptyOrUndefined(SIDE_MOVES.filter((i) => board.canMark(i)));
+  }
 
   getMoves(board: Board, mark: Mark): number[] {
-    let moves =
+    const moves =
       this.getWinningMoves(board, mark) ??
       this.getBlockingMoves(board, mark) ??
       this.getTrappingMoves(board, mark) ??
-      this.getCenterMoves(board, mark) ??
-      this.getCornerMoves(board, mark) ??
-      this.getSideMoves(board, mark);
+      this.getCenterMoves(board) ??
+      this.getCornerMoves(board) ??
+      this.getSideMoves(board);
 
-    if (moves === undefined) {
+    if (!moves) {
       throw new TypeError("board is full!");
     }
 
