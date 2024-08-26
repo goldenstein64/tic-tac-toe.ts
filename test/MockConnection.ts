@@ -1,4 +1,4 @@
-import { Connection, Message } from "../src/data/Messages";
+import type { Connection, Message } from "../lib/data/Messages";
 
 export default class MockConnection implements Connection {
   inputs: string[];
