@@ -4,10 +4,10 @@ import { describe, it, expect } from "bun:test";
 
 import MockConnection from "../test/MockConnection";
 import Application from "./Application";
-import { HardComputer } from "./player/HardComputer";
-import { MediumComputer } from "./player/MediumComputer";
-import { EasyComputer } from "./player/EasyComputer";
-import { Human } from "./player/Human";
+import HardComputer from "./player/HardComputer";
+import MediumComputer from "./player/MediumComputer";
+import EasyComputer from "./player/EasyComputer";
+import Human from "./player/Human";
 
 describe("Application", () => {
   describe("choosePlayerOnce", () => {
