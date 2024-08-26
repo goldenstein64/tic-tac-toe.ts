@@ -21,11 +21,11 @@ export default class Application {
   }
 
   async #chooseComputerOnce(mark: Mark): Promise<Player | undefined> {
-    let computerInput = await this.#connection.prompt(
-      "app/msg/promptComputer",
-      mark
-    );
-    switch (computerInput) {
+    let input = await this.#connection.prompt({
+      id: "app/msg/promptComputer",
+      mark,
+    });
+    switch (input) {
       case "E":
         return new EasyComputer();
       case "M":
@@ -33,23 +33,23 @@ export default class Application {
       case "H":
         return new HardComputer();
       default:
-        this.#connection.print("app/err/computerInvalid", computerInput);
+await this.#connection.print({ id: "app/err/computerInvalid", input });
         return undefined;
     }
   }
 
   async choosePlayerOnce(mark: Mark): Promise<Player | undefined> {
-    let playerInput = await this.#connection.prompt(
-      "app/msg/promptPlayer",
-      mark
-    );
-    switch (playerInput) {
+    let input = await this.#connection.prompt({
+      id: "app/msg/promptPlayer",
+      mark,
+    });
+    switch (input) {
       case "H":
         return new Human(this.#connection);
       case "C":
-        return this.#chooseComputerOnce(mark);
+        return await this.#chooseComputerOnce(mark);
       default:
-        this.#connection.print("app/err/playerInvalid", playerInput);
+await this.#connection.print({ id: "app/err/playerInvalid", input });
         return undefined;
     }
   }
@@ -69,10 +69,12 @@ export default class Application {
   async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
     let currentIndex = 0;
     let currentMark: Mark = "X";
+await this.#connection.print({ id: "app/msg/board", board });
     while (!board.full()) {
       let player = players[currentIndex];
       let move = await player.getMove(board, currentMark);
       board.setMark(move, currentMark);
+await this.#connection.print({ id: "app/msg/board", board });
       if (board.won(currentMark)) return currentMark;
       currentIndex = (currentIndex % players.length) + 1;
       currentMark = marks.other(currentMark);
@@ -81,11 +83,11 @@ export default class Application {
     return board.won(currentMark) ? currentMark : undefined;
   }
 
-  displayWinner(winner: Mark | undefined): void {
+async displayWinner(winner: Mark | undefined): Promise<void> {
     if (winner !== undefined) {
-      this.#connection.print("app/msg/playerWon", winner);
+await this.#connection.print({ id: "app/msg/playerWon", mark: winner });
     } else {
-      this.#connection.print("app/msg/tied");
+await this.#connection.print({ id: "app/msg/tied" });
     }
   }
 }

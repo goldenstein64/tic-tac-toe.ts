@@ -15,7 +15,7 @@ describe("Human", () => {
       const move = await human.getMoveOnce(board, "X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "human/msg/promptMove",
+        { id: "human/msg/promptMove", mark: "X" },
       ] as Message[]);
 
       expect(move).toBe(1);
@@ -29,8 +29,8 @@ describe("Human", () => {
       const move = await human.getMoveOnce(board, "X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "human/msg/promptMove",
-        "human/err/occupied",
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "human/err/occupied", choice: 3 },
       ] as Message[]);
       expect(move).toBeUndefined();
     });
@@ -43,8 +43,8 @@ describe("Human", () => {
       const move = await human.getMoveOnce(board, "X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "human/msg/promptMove",
-        "human/err/outOfRange",
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "human/err/outOfRange", choice: 0 },
       ] as Message[]);
       expect(move).toBeUndefined();
     });
@@ -57,8 +57,8 @@ describe("Human", () => {
       const move = await human.getMoveOnce(board, "X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "human/msg/promptMove",
-        "human/err/nan",
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "human/err/nan", input: `${"9".repeat(10)}...` },
       ] as Message[]);
       expect(move).toBeUndefined();
     });
@@ -71,8 +71,8 @@ describe("Human", () => {
       const move = await human.getMoveOnce(board, "X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "human/msg/promptMove",
-        "human/err/nan",
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "human/err/nan", input: "icofsvdnmk..." },
       ] as Message[]);
       expect(move).toBeUndefined();
     });

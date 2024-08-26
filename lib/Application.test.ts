@@ -17,8 +17,8 @@ describe("Application", () => {
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "app/msg/promptPlayer",
-        "app/msg/promptComputer",
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
       ] as Message[]);
 
       expect(chosenPlayer).toBeInstanceOf(HardComputer);
@@ -30,8 +30,8 @@ describe("Application", () => {
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "app/msg/promptPlayer",
-        "app/msg/promptComputer",
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
       ] as Message[]);
 
       expect(chosenPlayer).toBeInstanceOf(MediumComputer);
@@ -43,8 +43,8 @@ describe("Application", () => {
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "app/msg/promptPlayer",
-        "app/msg/promptComputer",
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
       ] as Message[]);
 
       expect(chosenPlayer).toBeInstanceOf(EasyComputer);
@@ -56,7 +56,7 @@ describe("Application", () => {
       let chosenPlayer = await app.choosePlayerOnce("X");
 
       expect(mockConn.outputs).toStrictEqual([
-        "app/msg/promptPlayer",
+        { id: "app/msg/promptPlayer", mark: "X" },
       ] as Message[]);
 
       expect(chosenPlayer).toBeInstanceOf(Human);
