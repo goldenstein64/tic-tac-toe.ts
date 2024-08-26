@@ -57,6 +57,20 @@ const SYMMETRIES: Symmetry[] = [
   },
 ];
 
+/** returns an array of indexes where the predicate is true */
+function filterIndex<T>(
+  array: T[],
+  predicate: (value: T, index: number, array: T[]) => any
+): number[] {
+  const result: number[] = [];
+  for (let i = 0; i < array.length; i++) {
+    if (predicate(array[i], i, array)) {
+      result.push(i);
+    }
+  }
+  return result;
+}
+
 const CONTROLS = new Map<Mark, number>().set("X", -1).set("O", 1);
 
 const RECONCILERS = new Map<Mark, (a: number, b: number) => number>()
@@ -83,27 +97,23 @@ function symmetryMatches(
   return equalities.every((i) => symmetrySet.has(i));
 }
 
-function getSymmetrySet(board: Board): Set<number> {
-  let data = board.data;
-  let result = EQUALITIES.reduce(
-    (set, [a, b], i) => (data[a] == data[b] ? set.add(i) : set),
-    new Set<number>()
-  );
-
-  return result;
+function getSymmetrySet({ data }: Board): Set<number> {
+  return new Set(filterIndex(EQUALITIES, ([a, b]) => data[a] === data[b]));
 }
 
 function symmetricActions(board: Board): number[] | undefined {
-  let symmetrySet = getSymmetrySet(board);
-  for (let sym of SYMMETRIES) {
-    if (symmetryMatches(sym.equalities, symmetrySet)) return sym.image;
+  const symmetrySet = getSymmetrySet(board);
+  for (const { equalities, image } of SYMMETRIES) {
+    if (symmetryMatches(equalities, symmetrySet)) {
+      return image.filter((i) => board.canMark(i));
+    }
   }
 
   return undefined;
 }
 
 function simpleActions(board: Board): number[] {
-  return range(9).filter((i) => board.canMark(i));
+  return range(BOARD_SIZE).filter((i) => board.canMark(i));
 }
 
 function actions(board: Board): number[] {
@@ -111,23 +121,22 @@ function actions(board: Board): number[] {
 }
 
 function resultOf(board: Board, mark: Mark, move: number): Board {
-  let result = board.clone();
+  const result = board.clone();
   result.setMark(move, mark);
   return result;
 }
 
 function judge(board: Board, mark: Mark): number {
-  let terminal = getTerminal(board);
-  if (terminal != undefined) {
+  const terminal = getTerminal(board);
+  if (terminal !== undefined) {
     return terminal;
   }
 
   let result = CONTROLS.get(mark)!;
-  let reconcile = RECONCILERS.get(mark)!;
-  let otherMark = marks.other(mark);
-  for (let action of actions(board)) {
-    let newBoard = resultOf(board, mark, action);
-    result = reconcile(result, judge(newBoard, otherMark));
+  const reconcile = RECONCILERS.get(mark)!;
+  const otherMark = marks.other(mark);
+  for (const action of actions(board)) {
+    result = reconcile(result, judge(resultOf(board, mark, action), otherMark));
   }
 
   return result;
@@ -135,16 +144,16 @@ function judge(board: Board, mark: Mark): number {
 
 export class HardComputer implements Player {
   getMoves(board: Board, mark: Mark): number[] {
-    let actions = simpleActions(board);
-    let otherMark = marks.other(mark);
-    let scores = actions
-      .map((action) => resultOf(board, mark, action))
-      .map((newBoard) => judge(newBoard, otherMark));
+    const actions = simpleActions(board);
+    const otherMark = marks.other(mark);
+    const scores = actions.map((action) =>
+      judge(resultOf(board, mark, action), otherMark)
+    );
 
-    let bestScore = Math.max(...scores);
-    let bestMoves = actions
+    const bestScore = scores.reduce(RECONCILERS.get(mark)!);
+    const bestMoves = actions
       .map<[number, number]>((action, i) => [action, scores[i]])
-      .filter(([_, score]) => score == bestScore)
+      .filter(([_, score]) => score === bestScore)
       .map(([action]) => action);
 
     return bestMoves;
@@ -154,7 +163,7 @@ export class HardComputer implements Player {
     if (board.empty()) {
       return randomInt(BOARD_SIZE);
     } else {
-      let moves = this.getMoves(board, mark);
+      const moves = this.getMoves(board, mark);
       return moves[randomInt(moves.length)];
     }
   }
