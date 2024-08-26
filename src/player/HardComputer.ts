@@ -63,9 +63,7 @@ const RECONCILERS = new Map<Mark, (a: number, b: number) => number>()
   .set("X", Math.max)
   .set("O", Math.min);
 
-/**
- * @returns a number if it is a terminal, otherwise `undefined`
- */
+/** @returns a number if it is a terminal, otherwise `undefined` */
 function getTerminal(board: Board): number | undefined {
   if (board.won("X")) {
     return 1;
