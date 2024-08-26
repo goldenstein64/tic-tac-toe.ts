@@ -32,8 +32,8 @@ export class Board {
     return result;
   }
 
-  constructor() {
-    this.data = Array(BOARD_SIZE).fill(undefined);
+  constructor(data?: (Mark | undefined)[]) {
+    this.data = data ?? Array(BOARD_SIZE).fill(undefined);
   }
 
   clone(): Board {

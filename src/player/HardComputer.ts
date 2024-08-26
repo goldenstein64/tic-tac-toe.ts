@@ -74,11 +74,15 @@ function filterIndex<T>(
 const CONTROLS = new Map<Mark, number>().set("X", -1).set("O", 1);
 
 const RECONCILERS = new Map<Mark, (a: number, b: number) => number>()
-  .set("X", Math.max)
-  .set("O", Math.min);
+  .set("X", function max(a, b) {
+    return Math.max(a, b);
+  })
+  .set("O", function min(a, b) {
+    return Math.min(a, b);
+  });
 
 /** @returns a number if it is a terminal, otherwise `undefined` */
-function getTerminal(board: Board): number | undefined {
+export function getTerminal(board: Board): number | undefined {
   if (board.won("X")) {
     return 1;
   } else if (board.won("O")) {
@@ -120,7 +124,7 @@ function actions(board: Board): number[] {
   return symmetricActions(board) ?? simpleActions(board);
 }
 
-function resultOf(board: Board, mark: Mark, move: number): Board {
+export function resultOf(board: Board, mark: Mark, move: number): Board {
   const result = board.clone();
   result.setMark(move, mark);
   return result;
@@ -149,8 +153,10 @@ export class HardComputer implements Player {
     const scores = actions.map((action) =>
       judge(resultOf(board, mark, action), otherMark)
     );
-
-    const bestScore = scores.reduce(RECONCILERS.get(mark)!);
+    const bestScore = scores.reduce(
+      RECONCILERS.get(mark)!,
+      CONTROLS.get(mark)!
+    );
     const bestMoves = actions
       .map<[number, number]>((action, i) => [action, scores[i]])
       .filter(([_, score]) => score === bestScore)
@@ -164,6 +170,9 @@ export class HardComputer implements Player {
       return randomInt(BOARD_SIZE);
     } else {
       const moves = this.getMoves(board, mark);
+      if (moves.length === 0) {
+        throw new RangeError(`moves.length (${moves.length}) is 0`);
+      }
       return moves[randomInt(moves.length)];
     }
   }
