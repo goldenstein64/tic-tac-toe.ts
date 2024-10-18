@@ -64,32 +64,89 @@ describe("Application", () => {
     });
   });
 
+  describe("choosePlayers", () => {
+    it("retries invalid inputs for players", async () => {
+      let mockConn = new MockConnection(["@", "C", "H", "@", "@", "H"]);
+      let app = new Application(mockConn);
+
+      let players = await app.choosePlayers();
+
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/err/playerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+        { id: "app/err/playerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+        { id: "app/err/playerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+      ]);
+      expect(players[0]).toBeInstanceOf(HardComputer);
+      expect(players[1]).toBeInstanceOf(Human);
+    });
+
+    it("retries invalid second inputs for computers", async () => {
+      let mockConn = new MockConnection([
+        "C",
+        "@",
+        "C",
+        "M",
+        "@",
+        "C",
+        "@",
+        "C",
+        "E",
+      ]);
+      let app = new Application(mockConn);
+
+      let players = await app.choosePlayers();
+
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
+        { id: "app/err/computerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "X" },
+        { id: "app/msg/promptComputer", mark: "X" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+        { id: "app/err/playerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+        { id: "app/msg/promptComputer", mark: "O" },
+        { id: "app/err/computerInvalid", input: "@" },
+        { id: "app/msg/promptPlayer", mark: "O" },
+        { id: "app/msg/promptComputer", mark: "O" },
+      ]);
+      expect(players[0]).toBeInstanceOf(MediumComputer);
+      expect(players[1]).toBeInstanceOf(EasyComputer);
+    });
+  });
+
   describe("displayWinner", () => {
-    it("outputs a tie when given undefined", () => {
+    it("outputs a tie when given undefined", async () => {
       let mockConn = new MockConnection();
       let app = new Application(mockConn);
 
-      app.displayWinner(undefined);
+      await app.displayWinner(undefined);
 
       expect(mockConn.outputs).toStrictEqual([{ id: "app/msg/tied" }]);
     });
 
-    it("outputs the winner when given 'X'", () => {
+    it("outputs the winner when given 'X'", async () => {
       let mockConn = new MockConnection();
       let app = new Application(mockConn);
 
-      app.displayWinner("X");
+      await app.displayWinner("X");
 
       expect(mockConn.outputs).toStrictEqual([
         { id: "app/msg/playerWon", mark: "X" },
       ]);
     });
 
-    it("outputs the winner when given 'O'", () => {
+    it("outputs the winner when given 'O'", async () => {
       let mockConn = new MockConnection();
       let app = new Application(mockConn);
 
-      app.displayWinner("O");
+      await app.displayWinner("O");
 
       expect(mockConn.outputs).toStrictEqual([
         { id: "app/msg/playerWon", mark: "O" },
