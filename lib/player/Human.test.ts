@@ -36,7 +36,7 @@ describe("Human", () => {
     });
 
     it("states whether a position is out of range", async () => {
-      const board = Board.fromPattern(",,,,,,,,,");
+      const board = new Board();
       const mockConn = new MockConnection(["0"]);
       const human = new Human(mockConn);
 
@@ -50,7 +50,7 @@ describe("Human", () => {
     });
 
     it("states that a huge input isn't a number", async () => {
-      const board = Board.fromPattern(",,,,,,,,,");
+      const board = new Board();
       const mockConn = new MockConnection(["9".repeat(500)]);
       const human = new Human(mockConn);
 
@@ -64,7 +64,7 @@ describe("Human", () => {
     });
 
     it("states that a non-number input isn't a number", async () => {
-      const board = Board.fromPattern(",,,,,,,,,");
+      const board = new Board();
       const mockConn = new MockConnection(["icofsvdnmklsdcfas"]);
       const human = new Human(mockConn);
 
@@ -73,6 +73,20 @@ describe("Human", () => {
       expect(mockConn.outputs).toStrictEqual([
         { id: "human/msg/promptMove", mark: "X" },
         { id: "human/err/nan", input: "icofsvdnmk..." },
+      ] as Message[]);
+      expect(move).toBeUndefined();
+    });
+
+    it("states that a short non-number input isn't a number", async () => {
+      const board = new Board();
+      const mockConn = new MockConnection(["asomething"]);
+      const human = new Human(mockConn);
+
+      const move = await human.getMoveOnce(board, "X");
+
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "human/err/nan", input: "asomething" },
       ] as Message[]);
       expect(move).toBeUndefined();
     });
