@@ -8,6 +8,7 @@ import HardComputer from "./player/HardComputer";
 import MediumComputer from "./player/MediumComputer";
 import EasyComputer from "./player/EasyComputer";
 import Human from "./player/Human";
+import { Board } from "./data";
 
 describe("Application", () => {
   describe("choosePlayerOnce", () => {
@@ -60,6 +61,71 @@ describe("Application", () => {
       ] as Message[]);
 
       expect(chosenPlayer).toBeInstanceOf(Human);
+    });
+  });
+
+  describe("displayWinner", () => {
+    it("outputs a tie when given undefined", () => {
+      let mockConn = new MockConnection();
+      let app = new Application(mockConn);
+
+      app.displayWinner(undefined);
+
+      expect(mockConn.outputs).toStrictEqual([{ id: "app/msg/tied" }]);
+    });
+
+    it("outputs the winner when given 'X'", () => {
+      let mockConn = new MockConnection();
+      let app = new Application(mockConn);
+
+      app.displayWinner("X");
+
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "app/msg/playerWon", mark: "X" },
+      ]);
+    });
+
+    it("outputs the winner when given 'O'", () => {
+      let mockConn = new MockConnection();
+      let app = new Application(mockConn);
+
+      app.displayWinner("O");
+
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "app/msg/playerWon", mark: "O" },
+      ]);
+    });
+  });
+
+  describe("playGame", () => {
+    it("can run a game of tic-tac-toe between humans", async () => {
+      let mockConn = new MockConnection(["1", "2", "7", "4", "9", "5", "8"]);
+      let app = new Application(mockConn);
+
+      let board = new Board();
+      let winner = await app.playGame(board, [
+        new Human(mockConn),
+        new Human(mockConn),
+      ]);
+
+      expect(winner).toBe("X");
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "O" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "O" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "O" },
+        { id: "app/msg/board", board },
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "app/msg/board", board },
+      ]);
     });
   });
 });
