@@ -8,10 +8,7 @@ import EasyComputer from "./player/EasyComputer";
 import MediumComputer from "./player/MediumComputer";
 import HardComputer from "./player/HardComputer";
 import Human from "./player/Human";
-
-export interface Player {
-  getMove(board: Board, mark: Mark): Promise<number>;
-}
+import type { Player } from "./player";
 
 export default class Application {
   #connection: Connection;

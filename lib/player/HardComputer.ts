@@ -1,4 +1,4 @@
-import type { Player } from "../Application";
+import type { Player } from ".";
 import type { Mark } from "../data/Mark";
 
 import { randomInt } from "crypto";

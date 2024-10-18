@@ -1,4 +1,4 @@
-import { type Player } from "../Application";
+import { type Player } from ".";
 import type Board from "../data/Board";
 import { type Mark } from "../data/Mark";
 
