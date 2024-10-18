@@ -76,7 +76,7 @@ await this.#connection.print({ id: "app/msg/board", board });
       board.setMark(move, currentMark);
 await this.#connection.print({ id: "app/msg/board", board });
       if (board.won(currentMark)) return currentMark;
-      currentIndex = (currentIndex % players.length) + 1;
+      currentIndex = (currentIndex + 1) % players.length;
       currentMark = marks.other(currentMark);
     }
     currentMark = marks.other(currentMark);
