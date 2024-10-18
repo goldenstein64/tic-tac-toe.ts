@@ -4,7 +4,7 @@ import { randomInt } from "crypto";
 import { getTerminal, resultOf } from "./HardComputer";
 import Board, { BOARD_SIZE } from "../data/Board";
 import type { Mark } from "../data/Mark";
-import { range } from "../util/utils";
+import { range } from "../util";
 
 function filterIndex<T>(
   array: T[],

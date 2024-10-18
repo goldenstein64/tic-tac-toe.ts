@@ -4,7 +4,7 @@ import type { Mark } from "../data/Mark";
 
 import { randomInt } from "crypto";
 
-import { range } from "../util/utils";
+import { range } from "../util";
 import { WIN_PATTERNS } from "../data/Board";
 import { marks } from "../data/Mark";
 
