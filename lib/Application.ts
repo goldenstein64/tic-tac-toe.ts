@@ -30,7 +30,7 @@ export default class Application {
       case "H":
         return new HardComputer();
       default:
-await this.#connection.print({ id: "app/err/computerInvalid", input });
+        await this.#connection.print({ id: "app/err/computerInvalid", input });
         return undefined;
     }
   }
@@ -46,7 +46,7 @@ await this.#connection.print({ id: "app/err/computerInvalid", input });
       case "C":
         return await this.#chooseComputerOnce(mark);
       default:
-await this.#connection.print({ id: "app/err/playerInvalid", input });
+        await this.#connection.print({ id: "app/err/playerInvalid", input });
         return undefined;
     }
   }
@@ -66,12 +66,12 @@ await this.#connection.print({ id: "app/err/playerInvalid", input });
   async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
     let currentIndex = 0;
     let currentMark: Mark = "X";
-await this.#connection.print({ id: "app/msg/board", board });
+    await this.#connection.print({ id: "app/msg/board", board });
     while (!board.full()) {
       let player = players[currentIndex];
       let move = await player.getMove(board, currentMark);
       board.setMark(move, currentMark);
-await this.#connection.print({ id: "app/msg/board", board });
+      await this.#connection.print({ id: "app/msg/board", board });
       if (board.won(currentMark)) return currentMark;
       currentIndex = (currentIndex + 1) % players.length;
       currentMark = marks.other(currentMark);
@@ -80,11 +80,11 @@ await this.#connection.print({ id: "app/msg/board", board });
     return board.won(currentMark) ? currentMark : undefined;
   }
 
-async displayWinner(winner: Mark | undefined): Promise<void> {
+  async displayWinner(winner: Mark | undefined): Promise<void> {
     if (winner !== undefined) {
-await this.#connection.print({ id: "app/msg/playerWon", mark: winner });
+      await this.#connection.print({ id: "app/msg/playerWon", mark: winner });
     } else {
-await this.#connection.print({ id: "app/msg/tied" });
+      await this.#connection.print({ id: "app/msg/tied" });
     }
   }
 }
