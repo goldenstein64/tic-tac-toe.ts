@@ -134,4 +134,48 @@ describe("Board", () => {
       }
     });
   });
+
+  describe("ended", () => {
+    it("returns X as winner when they win on a full board", () => {
+      let board = Board.fromPattern("XXXXOOOOX");
+
+      expect(board.ended("X")).toEqual({ winner: "X" });
+      expect(board.ended("O")).toEqual({ winner: undefined });
+    });
+
+    it("returns O as winner when they win on a full board", () => {
+      let board = Board.fromPattern("OXXOOXXXO");
+
+      expect(board.ended("X")).toEqual({ winner: undefined });
+      expect(board.ended("O")).toEqual({ winner: "O" });
+    });
+
+    it("returns nothing as winner when tying on a full board", () => {
+      let board = Board.fromPattern("OXOXOXXOX");
+
+      expect(board.ended("X")).toEqual({ winner: undefined });
+      expect(board.ended("O")).toEqual({ winner: undefined });
+    });
+
+    it("returns nothing when the board is not full", () => {
+      let board = Board.fromPattern("OXOXOXX,X");
+
+      expect(board.ended("X")).toBeUndefined();
+      expect(board.ended("O")).toBeUndefined();
+    });
+
+    it("returns X as winner when they win", () => {
+      let board = Board.fromPattern("XXXX,OOOX");
+
+      expect(board.ended("X")).toEqual({ winner: "X" });
+      expect(board.ended("O")).toBeUndefined();
+    });
+
+    it("returns O as winner when they win", () => {
+      let board = Board.fromPattern("OXXOOXX,O");
+
+      expect(board.ended("X")).toBeUndefined();
+      expect(board.ended("O")).toEqual({ winner: "O" });
+    });
+  });
 });
