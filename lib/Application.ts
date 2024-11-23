@@ -65,19 +65,17 @@ export default class Application {
 
   async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
     let currentIndex = 0;
-    let currentMark: Mark = "X";
     await this.#connection.print({ id: "app/msg/board", board });
-    while (!board.full()) {
-      let player = players[currentIndex];
-      let move = await player.getMove(board, currentMark);
+    while (true) {
+      const currentMark = currentIndex === 0 ? "X" : "O";
+      const player = players[currentIndex];
+      const move = await player.getMove(board, currentMark);
       board.setMark(move, currentMark);
       await this.#connection.print({ id: "app/msg/board", board });
-      if (board.won(currentMark)) return currentMark;
+      const endResult = board.ended(currentMark);
+      if (endResult) return endResult.winner;
       currentIndex = (currentIndex + 1) % players.length;
-      currentMark = marks.other(currentMark);
     }
-    currentMark = marks.other(currentMark);
-    return board.won(currentMark) ? currentMark : undefined;
   }
 
   async displayWinner(winner: Mark | undefined): Promise<void> {

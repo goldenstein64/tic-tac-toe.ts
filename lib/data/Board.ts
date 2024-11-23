@@ -54,6 +54,16 @@ export default class Board {
     }
   }
 
+  ended(mark: Mark): { winner: Mark | undefined } | undefined {
+    if (this.won(mark)) {
+      return { winner: mark };
+    } else if (this.full()) {
+      return { winner: undefined };
+    } else {
+      return undefined;
+    }
+  }
+
   isMarkedWith(pos: number, mark: Mark | undefined): boolean {
     return pos >= 0 && pos < BOARD_SIZE && this.data[pos] === mark;
   }
