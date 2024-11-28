@@ -4,11 +4,12 @@ export default class ConsoleConnection implements Connection {
   constructor(readonly format: (message: Message) => string) {}
 
   async prompt(message: Message): Promise<string> {
-    return prompt(this.format(message))!;
+    const input = prompt(this.format(message));
+    if (!input) throw new TypeError("EOF encountered!");
+    return input;
   }
 
-  print(message: Message): Promise<void> {
+  async print(message: Message): Promise<void> {
     console.write(this.format(message), "\n");
-    return Promise.resolve();
   }
 }
