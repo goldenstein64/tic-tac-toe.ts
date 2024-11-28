@@ -4,7 +4,7 @@ import type { Mark } from "../data/Mark";
 import type { Connection } from "../data/Messages";
 
 function truncate(s: string, maxLength: number): string {
-  return s.length > maxLength ? `${s.substring(0, 10)}...` : s;
+  return s.length > maxLength ? `${s.substring(0, maxLength)}...` : s;
 }
 
 export default class Human implements Player {
