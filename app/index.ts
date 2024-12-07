@@ -14,7 +14,7 @@ export function displayBoard(data: (Mark | undefined)[]) {
     .map((mark, i) => mark ?? (i + 1).toString())
     .chunk(3)
     .map((marks) => ` ${marks.join(" | ")}`)
-    .intersperse("-----------")
+    .intersperse("---|---|---")
     .toArray()
     .join("\n");
 }
