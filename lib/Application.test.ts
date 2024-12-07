@@ -155,7 +155,7 @@ describe("Application", () => {
   });
 
   describe("playTurn", () => {
-    it("outputs board", async () => {
+    it("outputs the board", async () => {
       let mockConn = new MockConnection(["1"]);
       let app = new Application(mockConn);
 
