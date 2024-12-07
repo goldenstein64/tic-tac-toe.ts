@@ -1,6 +1,17 @@
 import type { Mark } from "./Mark";
 
-export const BOARD_SIZE: number = 9;
+export const BOARD_SIZE = 9;
+
+type FixedArray<T, N extends number, R extends T[] = []> = R["length"] extends N
+  ? R
+  : FixedArray<T, N, [...R, T]>;
+
+function fixedArray<T, N extends number>(
+  value: T,
+  length: N
+): FixedArray<T, N> {
+  return Array(length).fill(value) as FixedArray<T, N>;
+}
 
 export const WIN_PATTERNS = Object.freeze([
   Object.freeze([0, 1, 2]),
@@ -14,7 +25,7 @@ export const WIN_PATTERNS = Object.freeze([
 ]);
 
 export default class Board {
-  readonly data: (Mark | undefined)[];
+  readonly data: FixedArray<Mark | undefined, 9>;
 
   static fromPattern(pattern: string): Board {
     let result = new Board();
@@ -32,8 +43,8 @@ export default class Board {
     return result;
   }
 
-  constructor(data?: (Mark | undefined)[]) {
-    this.data = data ?? Array(BOARD_SIZE).fill(undefined);
+  constructor(data?: FixedArray<Mark | undefined, 9>) {
+    this.data = data ?? fixedArray(undefined, BOARD_SIZE);
   }
 
   clone(): Board {
