@@ -19,6 +19,10 @@ export default class Application {
     this.board = pattern ? Board.fromPattern(pattern) : new Board();
   }
 
+  toString() {
+    return this.board.toString();
+  }
+
   async #chooseComputerOnce(mark: Mark): Promise<Player | undefined> {
     let input = await this.#connection.prompt({
       id: "app/msg/promptComputer",

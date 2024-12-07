@@ -1,14 +1,23 @@
-import type { Message } from "../lib";
+import type { Mark, Message } from "../lib";
 
+import "./extensions";
 import Application, { Board } from "../lib";
-
 import ConsoleConnection from "./ConsoleConnection";
 
 function assertNever(arg: never): never {
   throw new TypeError(`bad message id '${(arg as any).id}'!`);
 }
 
-
+export function displayBoard(data: (Mark | undefined)[]) {
+  return data
+    .values()
+    .map((mark, i) => mark ?? (i + 1).toString())
+    .chunk(3)
+    .map((marks) => ` ${marks.join(" | ")}`)
+    .intersperse("-----------")
+    .toArray()
+    .join("\n");
+}
 
 const connection = new ConsoleConnection((msg: Message): string => {
   switch (msg.id) {
@@ -17,7 +26,7 @@ const connection = new ConsoleConnection((msg: Message): string => {
     case "app/msg/promptComputer":
       return `What is Computer ${msg.mark}'s difficulty? [E/M/H]:`;
     case "app/msg/board":
-      return `${msg.board}\n`;
+      return `${displayBoard(msg.board.data)}\n`;
     case "app/msg/playerWon":
       return `Player ${msg.mark} won!`;
     case "app/msg/tied":

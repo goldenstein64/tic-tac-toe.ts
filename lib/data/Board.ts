@@ -87,13 +87,6 @@ export default class Board {
   }
 
   toString(): string {
-    let data = this.data.map((m, i) =>
-      m === undefined ? (i + 1).toString() : m
-    );
-    return ` ${data[0]} | ${data[1]} | ${data[2]}
------------
- ${data[3]} | ${data[4]} | ${data[5]}
------------
- ${data[6]} | ${data[7]} | ${data[8]}`;
+    return this.data.map((m) => m ?? ",").join("");
   }
 }
