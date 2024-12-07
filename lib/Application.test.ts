@@ -159,29 +159,28 @@ describe("Application", () => {
       let mockConn = new MockConnection(["1", "2", "7", "4", "9", "5", "8"]);
       let app = new Application(mockConn);
 
-      let board = new Board();
-      let winner = await app.playGame(board, [
+      let winner = await app.playGame([
         new Human(mockConn),
         new Human(mockConn),
       ]);
 
       expect(winner).toBe("X");
       expect(mockConn.outputs).toStrictEqual([
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board },
+        { id: "app/msg/board", board: app.board },
       ]);
     });
   });

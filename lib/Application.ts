@@ -12,9 +12,11 @@ import type { Player } from "./player";
 
 export default class Application {
   #connection: Connection;
+  board: Board;
 
-  constructor(connection: Connection) {
+  constructor(connection: Connection, pattern?: string) {
     this.#connection = connection;
+    this.board = pattern ? Board.fromPattern(pattern) : new Board();
   }
 
   async #chooseComputerOnce(mark: Mark): Promise<Player | undefined> {
@@ -63,16 +65,16 @@ export default class Application {
     return [await this.choosePlayer("X"), await this.choosePlayer("O")];
   }
 
-  async playGame(board: Board, players: Player[]): Promise<Mark | undefined> {
+  async playGame(players: Player[]): Promise<Mark | undefined> {
     let currentIndex = 0;
-    await this.#connection.print({ id: "app/msg/board", board });
+    await this.#connection.print({ id: "app/msg/board", board: this.board });
     while (true) {
       const currentMark = currentIndex === 0 ? "X" : "O";
       const player = players[currentIndex];
-      const move = await player.getMove(board, currentMark);
-      board.setMark(move, currentMark);
-      await this.#connection.print({ id: "app/msg/board", board });
-      const endResult = board.ended(currentMark);
+      const move = await player.getMove(this.board, currentMark);
+      this.board.setMark(move, currentMark);
+      await this.#connection.print({ id: "app/msg/board", board: this.board });
+      const endResult = this.board.ended(currentMark);
       if (endResult) return endResult.winner;
       currentIndex = (currentIndex + 1) % players.length;
     }

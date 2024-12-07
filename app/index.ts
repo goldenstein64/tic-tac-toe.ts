@@ -4,6 +4,12 @@ import Application, { Board } from "../lib";
 
 import ConsoleConnection from "./ConsoleConnection";
 
+function assertNever(arg: never): never {
+  throw new TypeError(`bad message id '${(arg as any).id}'!`);
+}
+
+
+
 const connection = new ConsoleConnection((msg: Message): string => {
   switch (msg.id) {
     case "app/msg/promptPlayer":
@@ -28,11 +34,13 @@ const connection = new ConsoleConnection((msg: Message): string => {
       return `Slot ${msg.choice} is occupied!`;
     case "human/err/outOfRange":
       return `Slot ${msg.choice} is out of range!`;
+    default:
+      assertNever(msg);
   }
 });
 
 const app = new Application(connection);
 
 const players = await app.choosePlayers();
-const winner = await app.playGame(new Board(), players);
+const winner = await app.playGame(players);
 await app.displayWinner(winner);
