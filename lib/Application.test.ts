@@ -154,6 +154,21 @@ describe("Application", () => {
     });
   });
 
+  describe("playTurn", () => {
+    it("outputs board", async () => {
+      let mockConn = new MockConnection(["1"]);
+      let app = new Application(mockConn);
+
+      let endResult = await app.playTurn(new Human(mockConn), "X");
+
+      expect(endResult).toBeUndefined();
+      expect(mockConn.outputs).toStrictEqual([
+        { id: "human/msg/promptMove", mark: "X" },
+        { id: "app/msg/board", board: app.board },
+      ]);
+    });
+  });
+
   describe("playGame", () => {
     it("can run a game of tic-tac-toe between humans", async () => {
       let mockConn = new MockConnection(["1", "2", "7", "4", "9", "5", "8"]);

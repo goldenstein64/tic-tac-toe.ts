@@ -2,7 +2,6 @@ import type { Connection } from "./data/Messages";
 import type { Mark } from "./data/Mark";
 
 import Board from "./data/Board";
-import { marks } from "./data/Mark";
 
 import EasyComputer from "./player/EasyComputer";
 import MediumComputer from "./player/MediumComputer";
@@ -69,18 +68,25 @@ export default class Application {
     return [await this.choosePlayer("X"), await this.choosePlayer("O")];
   }
 
+  async playTurn(
+    player: Player,
+    mark: Mark
+  ): Promise<{ winner: Mark | undefined } | undefined> {
+    const move = await player.getMove(this.board, mark);
+    this.board.setMark(move, mark);
+    await this.#connection.print({ id: "app/msg/board", board: this.board });
+    return this.board.ended(mark);
+  }
+
   async playGame(players: Player[]): Promise<Mark | undefined> {
-    let currentIndex = 0;
+    let i = -1;
     await this.#connection.print({ id: "app/msg/board", board: this.board });
     while (true) {
-      const currentMark = currentIndex === 0 ? "X" : "O";
-      const player = players[currentIndex];
-      const move = await player.getMove(this.board, currentMark);
-      this.board.setMark(move, currentMark);
-      await this.#connection.print({ id: "app/msg/board", board: this.board });
-      const endResult = this.board.ended(currentMark);
+      i = (i + 1) % players.length;
+      const mark = i === 0 ? "X" : "O";
+      const player = players[i];
+      const endResult = await this.playTurn(player, mark);
       if (endResult) return endResult.winner;
-      currentIndex = (currentIndex + 1) % players.length;
     }
   }
 
