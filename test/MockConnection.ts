@@ -8,12 +8,12 @@ export default class MockConnection implements Connection {
     this.inputs = inputs ?? [];
   }
 
-  print(msg: Message, ..._: any[]): Promise<void> {
+  print(msg: Message): Promise<void> {
     this.outputs.push(msg);
     return Promise.resolve();
   }
 
-  prompt(msg: Message, ..._: any[]): Promise<string> {
+  prompt(msg: Message): Promise<string> {
     this.outputs.push(msg);
     if (this.inputs.length === 0) {
       throw new Error("inputs array is empty");
