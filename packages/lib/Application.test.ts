@@ -164,7 +164,7 @@ describe("Application", () => {
       expect(endResult).toBeUndefined();
       expect(mockConn.outputs).toStrictEqual([
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "X,,,,,,,," },
       ]);
     });
   });
@@ -181,21 +181,21 @@ describe("Application", () => {
 
       expect(winner).toBe("X");
       expect(mockConn.outputs).toStrictEqual([
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: ",,,,,,,,," },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "X,,,,,,,," },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,,,,,,," },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,,,,X,," },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,O,,X,," },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,O,,X,X" },
         { id: "human/msg/promptMove", mark: "O" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,OO,X,X" },
         { id: "human/msg/promptMove", mark: "X" },
-        { id: "app/msg/board", board: app.board },
+        { id: "app/msg/board", board: "XO,OO,XXX" },
       ]);
     });
   });

@@ -2,7 +2,7 @@ import type Board from "./Board";
 import type { Mark } from "./Mark";
 
 export type Message =
-  | { id: "app/msg/board"; board: Board }
+  | { id: "app/msg/board"; board: string }
   | { id: "app/msg/playerWon"; mark: Mark }
   | { id: "app/msg/tied" }
   | { id: "app/msg/promptPlayer"; mark: Mark }

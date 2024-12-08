@@ -1,5 +1,7 @@
 import type { Mark, Message, Connection } from "@goldenstein64/tic-tac-toe";
 
+import { marks } from "@goldenstein64/tic-tac-toe";
+
 export class EOFError extends Error {
   constructor(message: string = "EOF encountered!", options?: ErrorOptions) {
     super(message, options);
@@ -12,10 +14,13 @@ function assertNever(arg: never): never {
   throw new TypeError(`bad message id '${(arg as any).id}'!`);
 }
 
-export function displayBoard(data: (Mark | undefined)[]) {
-  return data
-    .values()
-    .map((mark, i) => mark ?? (i + 1).toString())
+function* chars(s: string): Generator<string, void, void> {
+  yield* s;
+}
+
+export function displayBoard(data: string) {
+  return chars(data)
+    .map((mark, i) => (marks.all.includes(mark) ? mark : (i + 1).toString()))
     .chunk(3)
     .map((marks) => ` ${marks.join(" | ")}`)
     .intersperse("---|---|---")
@@ -30,7 +35,7 @@ export function format(msg: Message): string {
     case "app/msg/promptComputer":
       return `What is Computer ${msg.mark}'s difficulty? [E/M/H]:`;
     case "app/msg/board":
-      return `${displayBoard(msg.board.data)}\n`;
+      return `${displayBoard(msg.board)}\n`;
     case "app/msg/playerWon":
       return `Player ${msg.mark} won!`;
     case "app/msg/tied":

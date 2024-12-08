@@ -74,13 +74,19 @@ export default class Application {
   ): Promise<{ winner: Mark | undefined } | undefined> {
     const move = await player.getMove(this.board, mark);
     this.board.setMark(move, mark);
-    await this.#connection.print({ id: "app/msg/board", board: this.board });
+    await this.#connection.print({
+      id: "app/msg/board",
+      board: this.board.toString(),
+    });
     return this.board.ended(mark);
   }
 
   async playGame(players: Player[]): Promise<Mark | undefined> {
     let i = -1;
-    await this.#connection.print({ id: "app/msg/board", board: this.board });
+    await this.#connection.print({
+      id: "app/msg/board",
+      board: this.board.toString(),
+    });
     while (true) {
       i = (i + 1) % players.length;
       const mark = i === 0 ? "X" : "O";
