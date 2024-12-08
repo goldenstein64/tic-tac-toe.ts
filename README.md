@@ -1,8 +1,8 @@
 # tic-tac-toe
 
-This is a TypeScript library implementation of tic-tac-toe.
+This is a TypeScript implementation of tic-tac-toe as a library and a console application. They may be published under `@goldenstein64/tic-tac-toe` and `@goldenstein64/tic-tac-toe-console` respectively.
 
-- Uses `Board` and `Mark` objects for data representation
-- Uses `Player` and `*Computer` objects for player inputs
-- Uses `Connection` as the console/mocked interface
-- Uses `Application` for representing the game's rules
+- `Board` and `Mark` objects are for data representation
+- `Player` and `*Computer` objects are for player behaviors
+- `Connection` and `Message` are the I/O interface
+- `Board` and `Application` represent the game's rules
