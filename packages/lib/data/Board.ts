@@ -1,17 +1,9 @@
+import type { FixedArray } from "../util";
+
+import { fixedArray } from "../util";
 import type { Mark } from "./Mark";
 
 export const BOARD_SIZE = 9;
-
-type FixedArray<T, N extends number, R extends T[] = []> = R["length"] extends N
-  ? R
-  : FixedArray<T, N, [...R, T]>;
-
-function fixedArray<T, N extends number>(
-  value: T,
-  length: N
-): FixedArray<T, N> {
-  return Array(length).fill(value) as FixedArray<T, N>;
-}
 
 export const WIN_PATTERNS = Object.freeze([
   Object.freeze([0, 1, 2]),

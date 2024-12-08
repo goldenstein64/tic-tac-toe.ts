@@ -1,12 +1,10 @@
 {
-  "workspaces": [
-    "packages/*"
-  ],
-  "type": "module",
+  "name": "@goldenstein64/tic-tac-toe",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.7.2"
-  }
+  },
+  "type": "module"
 }

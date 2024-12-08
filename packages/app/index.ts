@@ -1,7 +1,7 @@
-import type { Mark, Message } from "../lib";
+import type { Mark, Message } from "@goldenstein64/tic-tac-toe";
 
 import "./extensions";
-import Application, { Board } from "../lib";
+import Application from "@goldenstein64/tic-tac-toe";
 import ConsoleConnection from "./ConsoleConnection";
 
 function assertNever(arg: never): never {

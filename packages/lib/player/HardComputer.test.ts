@@ -4,7 +4,7 @@ import { randomInt } from "crypto";
 import { getTerminal, resultOf } from "./HardComputer";
 import Board, { BOARD_SIZE } from "../data/Board";
 import type { Mark } from "../data/Mark";
-import { range } from "../util";
+import { range, type FixedArray } from "../util";
 
 function filterIndex<T>(
   array: T[],
@@ -49,7 +49,7 @@ describe("HardComputer", () => {
       while (currentTrials < trials) {
         const initialValues = range(BOARD_SIZE).map(
           () => MARK_CHOICES[randomInt(MARK_CHOICES.length)]
-        );
+        ) as FixedArray<Mark | undefined, typeof BOARD_SIZE>;
 
         const emptyIndexes = filterIndex(initialValues, (m) => m === undefined);
 
@@ -58,7 +58,10 @@ describe("HardComputer", () => {
         expect(emptyIndexes.length).toBeWithin(1, BOARD_SIZE);
         const chosenIndex = emptyIndexes[randomInt(emptyIndexes.length)];
 
-        const expectedValues = [...initialValues];
+        const expectedValues = [...initialValues] as FixedArray<
+          Mark | undefined,
+          typeof BOARD_SIZE
+        >;
         const chosenMark = randomInt(2) === 0 ? "X" : "O";
         expectedValues[chosenIndex] = chosenMark;
 

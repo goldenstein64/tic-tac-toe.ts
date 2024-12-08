@@ -1,7 +1,7 @@
 import type { Message } from "../data/Messages";
 
 import { describe, it, expect } from "bun:test";
-import MockConnection from "../../test/MockConnection";
+import MockConnection from "../test/MockConnection";
 import Human from "./Human";
 import Board from "../data/Board";
 

@@ -1,0 +1,14 @@
+{
+  "name": "@goldenstein64/tic-tac-toe-console",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@goldenstein64/tic-tac-toe": "link:@goldenstein64/tic-tac-toe"
+  }
+}

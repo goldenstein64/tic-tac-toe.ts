@@ -1,5 +1,6 @@
 import type { Connection } from "./data/Messages";
 import type { Mark } from "./data/Mark";
+import type { Player } from "./player";
 
 import Board from "./data/Board";
 
@@ -7,7 +8,6 @@ import EasyComputer from "./player/EasyComputer";
 import MediumComputer from "./player/MediumComputer";
 import HardComputer from "./player/HardComputer";
 import Human from "./player/Human";
-import type { Player } from "./player";
 
 export default class Application {
   #connection: Connection;

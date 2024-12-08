@@ -1,4 +1,4 @@
-import type { Message, Connection } from "../lib/data/Messages";
+import type { Message, Connection } from "@goldenstein64/tic-tac-toe";
 
 export class EOFError extends Error {
   constructor(message: string = "EOF encountered!", options?: ErrorOptions) {
