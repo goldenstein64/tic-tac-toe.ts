@@ -1,12 +1,10 @@
-import type { Player } from ".";
 import type Board from "../data/Board";
 import type { Mark } from "../data/Mark";
-
-import { randomInt } from "crypto";
 
 import { range } from "../util";
 import { WIN_PATTERNS } from "../data/Board";
 import { marks } from "../data/Mark";
+import Computer from "./Computer";
 
 const WIN_PATTERN_LOOKUP: readonly number[][] = Object.freeze(
   range(9).map((i) =>
@@ -24,7 +22,7 @@ function nonEmptyOrUndefined<T>(result: T[]): T[] | undefined {
   return result.length > 0 ? result : undefined;
 }
 
-export default class MediumComputer implements Player {
+export default class MediumComputer extends Computer {
   getWinningMoves(board: Board, mark: Mark): number[] | undefined {
     return nonEmptyOrUndefined(
       range(9).filter((i) => {
@@ -70,7 +68,7 @@ export default class MediumComputer implements Player {
     return nonEmptyOrUndefined(SIDE_MOVES.filter((i) => board.canMark(i)));
   }
 
-  getMoves(board: Board, mark: Mark): number[] {
+  async getMoves(board: Board, mark: Mark): Promise<number[]> {
     const moves =
       this.getWinningMoves(board, mark) ??
       this.getBlockingMoves(board, mark) ??
@@ -82,10 +80,5 @@ export default class MediumComputer implements Player {
     if (!moves) throw new TypeError("board is full!");
 
     return moves;
-  }
-
-  async getMove(board: Board, mark: Mark): Promise<number> {
-    let moves = this.getMoves(board, mark);
-    return moves[randomInt(moves.length)];
   }
 }

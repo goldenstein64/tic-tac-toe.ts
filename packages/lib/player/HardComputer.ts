@@ -1,11 +1,9 @@
-import type { Player } from ".";
 import type { Mark } from "../data/Mark";
-
-import { randomInt } from "crypto";
 
 import { range } from "../util";
 import Board, { BOARD_SIZE } from "../data/Board";
 import { marks } from "../data/Mark";
+import Computer from "./Computer";
 
 const EQUALITIES: [number, number][] = [
   [0, 2], // 0
@@ -146,8 +144,8 @@ function judge(board: Board, mark: Mark): number {
   return result;
 }
 
-export default class HardComputer implements Player {
-  getMoves(board: Board, mark: Mark): number[] {
+export default class HardComputer extends Computer {
+  async getMoves(board: Board, mark: Mark): Promise<number[]> {
     const actions = simpleActions(board);
     const otherMark = marks.other(mark);
     const scores = actions.map((action) =>
@@ -163,17 +161,5 @@ export default class HardComputer implements Player {
       .map(([action]) => action);
 
     return bestMoves;
-  }
-
-  async getMove(board: Board, mark: Mark): Promise<number> {
-    if (board.empty()) {
-      return randomInt(BOARD_SIZE);
-    } else {
-      const moves = this.getMoves(board, mark);
-      if (moves.length === 0) {
-        throw new RangeError(`moves.length (${moves.length}) is 0`);
-      }
-      return moves[randomInt(moves.length)];
-    }
   }
 }

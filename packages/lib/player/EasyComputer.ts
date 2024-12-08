@@ -1,16 +1,12 @@
-import { type Player } from ".";
 import type Board from "../data/Board";
-import { type Mark } from "../data/Mark";
-
-import { randomInt } from "crypto";
+import type { Mark } from "../data/Mark";
 
 import { range } from "../util";
 import { BOARD_SIZE } from "../data/Board";
+import Computer from "./Computer";
 
-export default class EasyComputer implements Player {
-  async getMove(board: Board, mark: Mark): Promise<number> {
-    let all = range(BOARD_SIZE);
-    let choices = all.filter((i) => board.canMark(i));
-    return choices[randomInt(choices.length)];
+export default class EasyComputer extends Computer {
+  async getMoves(board: Board, mark: Mark): Promise<number[]> {
+    return range(BOARD_SIZE).filter((i) => board.canMark(i));
   }
 }
