@@ -155,11 +155,7 @@ export default class HardComputer extends Computer {
       RECONCILERS.get(mark)!,
       CONTROLS.get(mark)!
     );
-    const bestMoves = actions
-      .map<[number, number]>((action, i) => [action, scores[i]])
-      .filter(([_, score]) => score === bestScore)
-      .map(([action]) => action);
 
-    return bestMoves;
+    return actions.filter((_, i) => scores[i] === bestScore);
   }
 }
