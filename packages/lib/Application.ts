@@ -71,7 +71,7 @@ export default class Application {
   async playTurn(
     player: Player,
     mark: Mark
-  ): Promise<{ winner: Mark | undefined } | undefined> {
+  ): Promise<{ winner: Mark | null } | undefined> {
     const move = await player.getMove(this.board, mark);
     this.board.setMark(move, mark);
     await this.#connection.print({
@@ -81,7 +81,7 @@ export default class Application {
     return this.board.ended(mark);
   }
 
-  async playGame(players: Player[]): Promise<Mark | undefined> {
+  async playGame(players: Player[]): Promise<Mark | null> {
     let i = -1;
     await this.#connection.print({
       id: "app/msg/board",
@@ -96,8 +96,8 @@ export default class Application {
     }
   }
 
-  async displayWinner(winner: Mark | undefined): Promise<void> {
-    if (winner !== undefined) {
+  async displayWinner(winner: Mark | null): Promise<void> {
+    if (winner) {
       await this.#connection.print({ id: "app/msg/playerWon", mark: winner });
     } else {
       await this.#connection.print({ id: "app/msg/tied" });

@@ -57,11 +57,11 @@ export default class Board {
     }
   }
 
-  ended(mark: Mark): { winner: Mark | undefined } | undefined {
+  ended(mark: Mark): { winner: Mark | null } | undefined {
     if (this.won(mark)) {
       return { winner: mark };
     } else if (this.full()) {
-      return { winner: undefined };
+      return { winner: null };
     } else {
       return undefined;
     }

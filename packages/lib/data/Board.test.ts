@@ -140,21 +140,21 @@ describe("Board", () => {
       let board = Board.fromPattern("XXXXOOOOX");
 
       expect(board.ended("X")).toEqual({ winner: "X" });
-      expect(board.ended("O")).toEqual({ winner: undefined });
+      expect(board.ended("O")).toEqual({ winner: null });
     });
 
     it("returns O as winner when they win on a full board", () => {
       let board = Board.fromPattern("OXXOOXXXO");
 
-      expect(board.ended("X")).toEqual({ winner: undefined });
+      expect(board.ended("X")).toEqual({ winner: null });
       expect(board.ended("O")).toEqual({ winner: "O" });
     });
 
     it("returns nothing as winner when tying on a full board", () => {
       let board = Board.fromPattern("OXOXOXXOX");
 
-      expect(board.ended("X")).toEqual({ winner: undefined });
-      expect(board.ended("O")).toEqual({ winner: undefined });
+      expect(board.ended("X")).toEqual({ winner: null });
+      expect(board.ended("O")).toEqual({ winner: null });
     });
 
     it("returns nothing when the board is not full", () => {

@@ -122,11 +122,11 @@ describe("Application", () => {
   });
 
   describe("displayWinner", () => {
-    it("outputs a tie when given undefined", async () => {
+    it("outputs a tie when given null", async () => {
       let mockConn = new MockConnection();
       let app = new Application(mockConn);
 
-      await app.displayWinner(undefined);
+      await app.displayWinner(null);
 
       expect(mockConn.outputs).toStrictEqual([{ id: "app/msg/tied" }]);
     });
