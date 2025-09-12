@@ -28,7 +28,7 @@ export function displayBoard(data: string) {
     .join("\n");
 }
 
-export function format(msg: Message): string {
+export function formatConsole(msg: Message): string {
   switch (msg.id) {
     case "app/msg/promptPlayer":
       return `Is Player ${msg.mark} a player or computer? [H/C]:`;
@@ -58,7 +58,7 @@ export function format(msg: Message): string {
 }
 
 export default class ConsoleConnection implements Connection {
-  constructor(readonly format: (message: Message) => string = format) {}
+  constructor(readonly format: (message: Message) => string = formatConsole) {}
 
   async prompt(message: Message): Promise<string> {
     const input = prompt(this.format(message));
