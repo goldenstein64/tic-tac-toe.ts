@@ -2,6 +2,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "start": "bun run packages/app/index.ts"
+  },
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest"
