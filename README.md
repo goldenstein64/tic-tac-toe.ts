@@ -1,4 +1,4 @@
-# tic-tac-toe-ts
+# tic-tac-toe.ts
 
 This is an implementation of tic-tac-toe in TypeScript. See [goldenstein64/tic-tac-toe.spec](https://github.com/goldenstein64/tic-tac-toe.spec) for details.
 
