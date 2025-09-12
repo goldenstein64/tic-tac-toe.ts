@@ -1,5 +1,18 @@
 # tic-tac-toe-ts
 
-This is a TypeScript implementation of tic-tac-toe as a library and a console application. They may be published under `@goldenstein64/tic-tac-toe` and `@goldenstein64/tic-tac-toe-console` respectively.
+This is an implementation of tic-tac-toe in TypeScript. See [goldenstein64/tic-tac-toe.spec](https://github.com/goldenstein64/tic-tac-toe.spec) for details.
 
-See `goldenstein64/tic-tac-toe-spec` for a specification.
+## Usage
+
+This uses Bun for setup and as a runtime.
+
+```sh
+# install dependencies
+bun install
+
+# run console app
+bun start
+
+# run tests
+bun test
+```
