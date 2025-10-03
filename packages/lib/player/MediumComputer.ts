@@ -8,9 +8,7 @@ import Computer from "./Computer";
 
 const WIN_PATTERN_LOOKUP: readonly number[][] = Object.freeze(
   range(9).map((i) =>
-    WIN_PATTERNS.map<[readonly number[], number]>((p, j) => [p, j])
-      .filter(([pattern, _]) => pattern.includes(i))
-      .map(([_, j]) => j)
+    WIN_PATTERNS.flatMap((pattern, j) => (pattern.includes(i) ? [j] : []))
   )
 );
 
@@ -28,8 +26,9 @@ export default class MediumComputer extends Computer {
       range(9).filter((i) => {
         if (!board.canMark(i)) return false;
         return WIN_PATTERN_LOOKUP[i]
-          .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
-          .some((pattern) => pattern.every((i) => board.isMarkedWith(i, mark)));
+          .values()
+          .map((pi) => WIN_PATTERNS[pi].values().filter((j) => j != i))
+          .some((pattern) => pattern.every((j) => board.isMarkedWith(j, mark)));
       })
     );
   }
@@ -47,8 +46,8 @@ export default class MediumComputer extends Computer {
           .map((pi) => WIN_PATTERNS[pi].filter((j) => j != i))
           .filter(
             (pattern) =>
-              pattern.some((i) => board.canMark(i)) &&
-              pattern.some((i) => board.isMarkedWith(i, mark))
+              pattern.some((j) => board.canMark(j)) &&
+              pattern.some((j) => board.isMarkedWith(j, mark))
           );
 
         return trappingPatterns.length > 1;
