@@ -1,4 +1,3 @@
-import type Board from "./Board";
 import type { Mark } from "./Mark";
 
 export type Message =
