@@ -58,7 +58,7 @@ const SYMMETRIES: Symmetry[] = [
 /** returns an array of indexes where the predicate is true */
 function filterIndex<T>(
   array: T[],
-  predicate: (value: T, index: number, array: T[]) => any
+  predicate: (value: T, index: number, array: T[]) => any,
 ): number[] {
   const result: number[] = [];
   for (let i = 0; i < array.length; i++) {
@@ -94,7 +94,7 @@ export function getTerminal(board: Board): number | undefined {
 
 function symmetryMatches(
   equalities: number[],
-  symmetrySet: Set<number>
+  symmetrySet: Set<number>,
 ): boolean {
   return equalities.every((i) => symmetrySet.has(i));
 }
@@ -149,7 +149,7 @@ export default class HardComputer extends Computer {
     const actions = simpleActions(board);
     const otherMark = marks.other(mark);
     const scores = actions.map((action) =>
-      judge(resultOf(board, mark, action), otherMark)
+      judge(resultOf(board, mark, action), otherMark),
     );
     const bestScore = scores.reduce(
       RECONCILERS.get(mark)!,

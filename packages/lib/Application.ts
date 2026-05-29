@@ -70,7 +70,7 @@ export default class Application {
 
   async playTurn(
     player: Player,
-    mark: Mark
+    mark: Mark,
   ): Promise<{ winner: Mark | null } | undefined> {
     const move = await player.getMove(this.board, mark);
     this.board.setMark(move, mark);
@@ -82,11 +82,11 @@ export default class Application {
   }
 
   async playGame(players: Player[]): Promise<Mark | null> {
-    let i = -1;
     await this.#connection.print({
       id: "app/msg/board",
       board: this.board.toString(),
     });
+    let i = -1;
     while (true) {
       i = (i + 1) % players.length;
       const mark = i === 0 ? "X" : "O";

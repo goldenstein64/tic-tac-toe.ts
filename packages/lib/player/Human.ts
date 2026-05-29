@@ -23,7 +23,7 @@ export default class Human implements Player {
     let choice: number | undefined = undefined;
     try {
       choice = Number.parseInt(choiceString);
-    } catch (e) {
+    } catch {
       this.#connection.print({
         id: "human/err/nan",
         input: truncate(choiceString, 10),
@@ -31,7 +31,7 @@ export default class Human implements Player {
       return undefined;
     }
 
-    if (Number.isNaN(choice) || !Number.isFinite(choice)) {
+    if (!Number.isFinite(choice)) {
       await this.#connection.print({
         id: "human/err/nan",
         input: truncate(choiceString, 10),

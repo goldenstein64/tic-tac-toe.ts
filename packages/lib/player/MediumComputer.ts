@@ -8,8 +8,8 @@ import Computer from "./Computer";
 
 const WIN_PATTERN_LOOKUP: readonly number[][] = Object.freeze(
   range(9).map((i) =>
-    WIN_PATTERNS.flatMap((pattern, j) => (pattern.includes(i) ? [j] : []))
-  )
+    WIN_PATTERNS.flatMap((pattern, j) => (pattern.includes(i) ? [j] : [])),
+  ),
 );
 
 const CENTER_MOVES = [4];
@@ -27,9 +27,9 @@ export default class MediumComputer extends Computer {
         if (!board.canMark(i)) return false;
         return WIN_PATTERN_LOOKUP[i]
           .values()
-          .map((pi) => WIN_PATTERNS[pi].values().filter((j) => j != i))
+          .map((pi) => WIN_PATTERNS[pi].values().filter((j) => j !== i))
           .some((pattern) => pattern.every((j) => board.isMarkedWith(j, mark)));
-      })
+      }),
     );
   }
 
@@ -47,11 +47,11 @@ export default class MediumComputer extends Computer {
           .filter(
             (pattern) =>
               pattern.some((j) => board.canMark(j)) &&
-              pattern.some((j) => board.isMarkedWith(j, mark))
+              pattern.some((j) => board.isMarkedWith(j, mark)),
           );
 
         return trappingPatterns.length > 1;
-      })
+      }),
     );
   }
 
