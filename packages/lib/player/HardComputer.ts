@@ -72,8 +72,8 @@ function filterIndex<T>(
 const CONTROLS: Record<Mark, number> = { X: -1, O: 1 };
 
 const RECONCILERS: Record<Mark, (a: number, b: number) => number> = {
-  X: Math.max,
-  O: Math.min,
+  X: (a, b) => Math.max(a, b),
+  O: (a, b) => Math.min(a, b),
 };
 
 /** @returns a number if it is a terminal, otherwise `undefined` */
