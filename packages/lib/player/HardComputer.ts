@@ -69,15 +69,12 @@ function filterIndex<T>(
   return result;
 }
 
-const CONTROLS = new Map<Mark, number>().set("X", -1).set("O", 1);
+const CONTROLS: Record<Mark, number> = { X: -1, O: 1 };
 
-const RECONCILERS = new Map<Mark, (a: number, b: number) => number>()
-  .set("X", function max(a, b) {
-    return Math.max(a, b);
-  })
-  .set("O", function min(a, b) {
-    return Math.min(a, b);
-  });
+const RECONCILERS: Record<Mark, (a: number, b: number) => number> = {
+  X: Math.max,
+  O: Math.min,
+};
 
 /** @returns a number if it is a terminal, otherwise `undefined` */
 export function getTerminal(board: Board): number | undefined {
@@ -134,8 +131,8 @@ function judge(board: Board, mark: Mark): number {
     return terminal;
   }
 
-  let result = CONTROLS.get(mark)!;
-  const reconcile = RECONCILERS.get(mark)!;
+  let result = CONTROLS[mark];
+  const reconcile = RECONCILERS[mark];
   const otherMark = marks.other(mark);
   for (const action of actions(board)) {
     result = reconcile(result, judge(resultOf(board, mark, action), otherMark));
@@ -151,10 +148,7 @@ export default class HardComputer extends Computer {
     const scores = actions.map((action) =>
       judge(resultOf(board, mark, action), otherMark),
     );
-    const bestScore = scores.reduce(
-      RECONCILERS.get(mark)!,
-      CONTROLS.get(mark)!
-    );
+    const bestScore = scores.reduce(RECONCILERS[mark], CONTROLS[mark]);
 
     return actions.filter((_, i) => scores[i] === bestScore);
   }
